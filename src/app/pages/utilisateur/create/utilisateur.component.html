@@ -1,0 +1,295 @@
+<!-- Start Breadcrumbs -->
+<app-breadcrumbs title="Utilisateurs" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<!-- End Breadcrumbs -->
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card" id="customerList">
+            <div class="card-header border-bottom-dashed">
+
+                <div class="row g-4 align-items-center">
+                    <div class="col-sm">
+                        <div>
+                            <h5 class="card-title mb-0">Listes Des Utilisateurs</h5>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-auto">
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-soft-danger" id="remove-actions" style="display: none"
+                                (click)="deleteMultiple(deleteModel)"><i class="ri-delete-bin-2-line"></i></button>
+                            <button type="button" class="btn btn-success add-btn" data-bs-toggle="modal" id="create-btn"
+                                data-bs-target="#showModal" (click)="openModal(content)"><i
+                                    class="ri-add-line align-bottom me-1"></i> Ajouter utilisateur</button>
+                   
+                        </div>
+                    </div>
+                   
+                </div>
+            </div>
+            <div class="card-body border-bottom-dashed border-bottom">
+                <div class="row g-3">
+                    <div class="col-xl-6">
+                        <div class="search-box">
+                            <input type="text" name="searchTerm" class="form-control"
+                                placeholder=" Rechercher par code, nom, téléphone, email ..."
+                                [(ngModel)]="searchTerm" (ngModelChange)="performSearch()">
+                            <i class="ri-search-line search-icon"></i>
+                        </div>
+                    </div>
+                    <!--end col-->
+                    <div class="col-xl-6">
+                        <div class="row g-3">
+                            <div class="col-sm-4">
+                                
+                            </div>
+                            <!--end col-->
+                            <div class="col-sm-4">
+                                
+                            </div>
+                            <!--end col-->
+
+                            <div class="col-sm-4">
+                                
+                            </div>
+                            <!--end col-->
+                        </div>
+                    </div>
+                </div>
+                <!--end row-->
+            </div>
+            <div class="card-body">
+                <div>
+                    <div class="table-responsive table-card mb-1">
+                        <table class="table  table-hover table-nowrap mb-0 table-bordered table-nowrap">
+                            <thead class="table-light text-muted">
+                                <tr>
+                                   
+                                    <th class="sort" (click)="onSort('code')">code</th>
+                                    <th class="sort" (click)="onSort('nom')">nom</th>
+                                    <th class="sort" (click)="onSort('prenom')">prenom</th>
+                                    <th class="sort" (click)="onSort('telephone')">telephone</th>
+                                    <th class="sort" (click)="onSort('adresse')">adresse</th>
+                                    <th class="sort" (click)="onSort('email')">email</th>
+                                    <th class="sort">siège </th>
+                                    <th class="sort">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let utilisateur of uts">
+                                
+                                    <td>
+                                        <ngb-highlight [result]="utilisateur?.code ?? 'N/A' " [term]="searchTerm"></ngb-highlight>
+                                    </td>
+                                    <td>
+                                        <ngb-highlight [result]="utilisateur?.nom ?? 'N/A'" [term]="searchTerm"></ngb-highlight>
+                                    </td>
+                                    <td>
+                                        <ngb-highlight [result]="utilisateur?.prenom ?? 'N/A'" [term]="searchTerm"></ngb-highlight>
+                                    </td>
+                                    <td>
+                                        <ngb-highlight [result]="utilisateur?.telephone ?? 'N/A'" [term]="searchTerm"></ngb-highlight>
+                                    </td>
+                                    <td>
+                                        <ngb-highlight [result]="utilisateur?.adresse ?? 'N/A'" [term]="searchTerm"></ngb-highlight>
+                                    </td>
+                                    
+                                  
+                                   
+                                    <td>
+                                        <ngb-highlight [result]="utilisateur?.email" [term]="searchTerm"></ngb-highlight>
+                                    </td>
+                                    <td>
+                                        <ngb-highlight [result]="utilisateur?.sitepardefaut?.nom" [term]="searchTerm"></ngb-highlight>
+                                    </td>
+
+                                    <td>
+                                        <ul class="list-inline hstack gap-2 mb-0">
+                                            <li>
+                                                <a href="javascript:void(0);"
+                                                    (click)="goToClientDetails(utilisateur.id)"
+                                                    class="d-block text-decoration-none">
+                                                    <div class="col-xl-3 col-lg-4 col-sm-6">
+                                                        <div class="text-muted hstack gap-2">
+                                                            <img src="assets/images/svg/crypto-icons/auto.svg" alt=""
+                                                                class="avatar-xxs" />
+                                                            <span></span>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <li class="list-inline-item edit" ngbTooltip="Edit" placement="top">
+                                                <a href="javascript:void(0);" data-bs-toggle="modal"
+                                                    (click)="openEditModal(content, utilisateur)"
+                                                    class="text-primary d-inline-block edit-item-btn">
+                                                    <i class="ri-pencil-fill fs-16"></i>
+                                                </a>
+                                            </li>
+                                            <li class="list-inline-item me-0" ngbTooltip="Remove" placement="top"   >
+                                                <a class="text-danger d-inline-block remove-item-btn"   (click)="confirm(deleteModel ,utilisateur.id)"  
+                                                    data-bs-toggle="modal" data-bs-target="#deleteRecordModal">
+                                                    <i class="ri-delete-bin-5-fill fs-16"></i>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="row justify-content-md-between align-items-md-center">
+                        <div class="col col-sm-5">
+                            <div class="dataTables_info mb-2" id="tickets-table_info" role="status" aria-live="polite">
+                                Showing
+                                {{service.startIndex}} to
+                                {{service.endIndex}} of {{customerList?.length}}
+                                entries
+                            </div>
+                        </div>
+                        <!-- Pagination -->
+                        <div class="col col-sm-5">
+                            <div class="text-sm-right float-sm-end listjs-pagination">
+                                <ngb-pagination [collectionSize]="originalUtilisateur?.length" [(page)]="service.page"
+                                    [pageSize]="service.pageSize" (pageChange)="changePage()">
+                                </ngb-pagination>
+                            </div>
+                        </div>
+                        <!-- End Pagination -->
+                    </div>
+                </div>
+
+                <!-- Customer Create Model -->
+                <ng-template #content role="document" let-modal>
+                    <div class="modal-header bg-warning-subtle p-3">
+                        <h5 class="modal-title" id="exampleModalLabel">{{ isEditMode ? 'Modifier' : 'Ajouter' }}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                            id="close-modal" (click)="closeModal()"></button>
+                    </div>
+                    <form class="tablelist-form" autocomplete="off" (ngSubmit)="submitForm($event)">
+                        <div class="modal-body">
+                            <input type="hidden" name="id" value="" />
+                            <div class="row g-2">
+
+                            <div class="mb-3">
+                                <label for="customername-field" class="form-label">Code</label>
+                                <input type="text" id="customername-field" class="form-control" placeholder="Entrer code"
+                                    [(ngModel)]="code" name="code" required />
+                                <div class="invalid-feedback">Veuillez entrer code utilisateur</div>
+                            </div>
+
+                            <div class="mb-3 col-lg-6">
+                                <label for="customername-field" class="form-label">Nom</label>
+                                <input type="text" id="customername-field" class="form-control" placeholder="Entrer nom"
+                                    [(ngModel)]="nom" name="nom" />
+                                <div class="invalid-feedback">Veuillez entrer Nom</div>
+                            </div>
+
+                            <div class="mb-3 col-lg-6">
+                                <label for="email-field" class="form-label">prenom</label>
+                                <input type="email" id="email-field" class="form-control" placeholder="Entrer prénom"
+                                    [(ngModel)]="prenom" name="prenom" required />
+                                <div class="invalid-feedback">Veuillez entrer Prénom</div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <label for="phone-field" class="form-label">Téléphone</label>
+                                <input type="text" id="phone-field" class="form-control" placeholder="Entrer Téléphone no."
+                                    [(ngModel)]="telephone" name="téléphone" mask="000-000-0000" required />
+                                <div class="invalid-feedback">Veuillez entrer Téléphone.</div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <label for="phone-field" class="form-label">Email</label>
+                                <input type="text" id="phone-field" class="form-control" placeholder="Entrer Email."
+                                    [(ngModel)]="email" name="email"  required />
+                                <div class="invalid-feedback">entrer email.</div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="phone-field" class="form-label">Adresse</label>
+                                <input type="text" id="phone-field" class="form-control" placeholder="Enter adresse."
+                                    [(ngModel)]="adresse" name="adresse" />
+                                <div class="invalid-feedback">Entrer adresse.</div>
+                            </div>
+                           
+                            <div class="mb-3">
+
+                                <label for="phone-field" class="form-label">Sièges</label>
+                                <ng-select [items]="sieges" [multiple]="true" bindLabel="adresse" name="selectedSieges"
+                                    [(ngModel)]="selectedSieges">
+                                    <ng-template ng-optgroup-tmp let-item="item">
+                                        {{item.adresse || 'Unnamed group'}}
+                                    </ng-template>
+                                </ng-select>
+                            </div>
+                            <div class="mb-3">
+   
+                                <label for="phone-field" class="form-label">Siège par defaut </label>
+                                <ng-select [items]="selectedSieges" bindLabel="adresse" [(ngModel)]="defaultSiege" name="defaultSiege">
+                                    <ng-template ng-optgroup-tmp let-item="item">
+                                        {{item.adresse || 'Unnamed group'}}
+                                    </ng-template>
+                                </ng-select>
+                            </div>
+                          
+                               
+                         
+                            <div class="mb-3">
+                                <label for="phone-field" class="form-label">Mot de Passe</label>
+                                <input type="text" id="phone-field" class="form-control" placeholder="entrer mot de passe."
+                                    [(ngModel)]="password" name="password" required />
+                                <div class="invalid-feedback"> entrer mot de passe.</div>
+                            </div>
+
+
+                        </div>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="hstack gap-2 justify-content-end">
+                                <button type="button" class="btn btn-light" data-bs-dismiss="modal"
+                                    (click)="closeModal()">Fermer</button>
+                                <button type="submit" class="btn btn-success">{{ isEditMode ? 'Modifier' : 'Ajouter' }}
+                                    utilisateur
+
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </ng-template>
+
+                <!--End Modal -->
+                <!--end modal -->
+                
+            </div>
+        </div>
+
+    </div>
+    <!--end col-->
+</div>
+<!--end row-->
+
+<!-- removeItemModal -->
+<ng-template #deleteModel let-modal>
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="deleteRecord-close"
+                (click)="modal.dismiss('Cross click')"></button>
+        </div>
+        <div class="modal-body">
+            <div class="mt-2 text-center">
+
+                <div class="mt-4 pt-2 fs-15 mx-4 mx-sm-5">
+                    <h4>Are you sure ?</h4>
+                    <p class="text-muted mx-4 mb-0">Are you sure you want to remove this record ?</p>
+                </div>
+            </div>
+            <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
+                <button type="button" class="btn w-sm btn-light" data-bs-dismiss="modal"
+                    (click)="modal.close('Close click')">Close</button>
+                <button type="button" class="btn w-sm btn-danger " id="delete-product" 
+                    (click)="deleteUtilisateur()"> supprimer</button>
+            </div>
+        </div>
+    </div><!-- /.modal-content -->
+</ng-template>

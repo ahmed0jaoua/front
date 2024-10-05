@@ -1,0 +1,283 @@
+<!-- Start Breadcrumbs -->
+<app-breadcrumbs title="Véhicules" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<!-- End Breadcrumbs -->
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title mb-0">Liste Des Véhicules</h4>
+            </div><!-- end card header -->
+
+            <div class="card-body">
+                <div id="customerList">
+                    <div class="row g-4 mb-3">
+                        <div class="col-sm-auto">
+                            <div>
+                                <button type="button" class="btn btn-success add-btn me-1" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModal" (click)="openModal(content)"><i class="ri-add-line align-bottom me-1"></i> Ajouter</button>
+                                </div>
+                        </div>
+                   
+                        <div class="col-sm">
+                            <div class="d-flex justify-content-sm-end">
+                                <div class="search-box ms-2">
+                                    <input type="text" class="form-control search" placeholder="Rechercher..." [(ngModel)]="service.searchTerm">
+                                    <i class="ri-search-line search-icon"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive table-card mt-3 mb-1">
+                        <table class="table  table-hover table-nowrap mb-0 table-bordered table-nowrap">
+                            <thead>
+                                <tr class="bg-light text-muted">
+                                   
+                                    <th class="sort" listsortable="nom" (listsort)="onSort($event)">Nom</th>
+                                    <th class="sort" listsortable="proprietaire" (listsort)="onSort($event)">Propriétaire</th>
+                                    <th class="sort" listsortable="type" (listsort)="onSort($event)">Art</th>
+                                    <th class="sort" listsortable="matricule" (listsort)="onSort($event)">Immatriculation</th>
+                                    <th class="sort" listsortable="datefabrication" (listsort)="onSort($event)">Année de construction</th>
+                                    <th class="sort" listsortable="dateenregistrement" (listsort)="onSort($event)"> Date d'enregistrement</th>
+                                     <th class="sort" listsortable="status" (listsort)="onSort($event)">Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for(data of ListVehiculeDates;track $index){
+                                <tr id="lj_{{data.id}}">
+                                    
+                                    <td><ngb-highlight [result]="data.nom" [term]="service.searchTerm"></ngb-highlight></td>
+                                    <td><ngb-highlight [result]="data.proprietaire" [term]="service.searchTerm"></ngb-highlight></td>
+                                    <td><ngb-highlight [result]="data.type" [term]="service.searchTerm"></ngb-highlight></td>
+                                    <td><ngb-highlight [result]="data.matricule" [term]="service.searchTerm"></ngb-highlight></td>
+                                    <td><ngb-highlight [result]="(data.datefabrication | date: 'yyyy-MM-dd')" [term]="service.searchTerm">
+                                    </ngb-highlight></td>
+                                    
+                                    <td><ngb-highlight [result]="(data.dateEnregistrement | date: 'yyyy-MM-dd')" [term]="service.searchTerm">
+                                    </ngb-highlight></td>
+                                    
+                                   
+
+
+                                    <td class="status" id="lj_{{data.status}}" > <span [ngClass]="getBadgeClasses(data.status)" > 
+                                          {{ getStatusText(data.status) }}
+                                          </span>
+                                    
+                                    
+                                    
+                                    </td>
+                                    <td>
+                                        <div class="d-flex gap-2">
+                                            
+                                            <button class="btn btn-sm btn-soft-info edit-list" (click)="editModal(content, data.id)" >
+                                                <i class="ri-pencil-fill align-bottom"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-soft-danger remove-list"  (click)="confirm(deleteModel, data.id)">
+                                                <i class="ri-delete-bin-5-fill align-bottom"></i>
+                                            </button>
+   
+                                        </div>
+                                    </td>
+                                </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="row justify-content-md-between align-items-md-center">
+                        <div class="col col-sm-6">
+                            <div class="dataTables_info mb-2" id="tickets-table_info" role="status" aria-live="polite">
+                                Showing
+                                {{service.startIndex}} to
+                                {{service.endIndex}} of {{service.totalRecords}}
+                                entries
+                            </div>
+                        </div>
+                        <!-- Pagination -->
+                        <div class="col col-sm-6">
+                            <div class="text-sm-right float-end listjs-pagination">
+                                <ngb-pagination [collectionSize]="(total | async)!" [(page)]="service.page" [pageSize]="service.pageSize">
+                                </ngb-pagination>
+                            </div>
+                        </div>
+                        <!-- End Pagination -->
+                    </div>
+                </div>
+            </div><!-- end card -->
+        </div>
+        <!-- end col -->
+    </div>
+    <!-- end col -->
+</div>
+<!-- end row -->
+
+<div class="row">
+  
+    <!-- end col -->
+
+  
+    <!-- end col -->
+
+   
+    <!-- end col -->
+</div>
+<!-- end row -->
+
+<div class="row">
+    <div class="col-xl-4">
+      
+        <!-- end col -->
+    </div>
+    <!-- end col -->
+</div>
+<!-- end row -->
+
+<!-- Add ListJs Data -->
+<ng-template #content role="document" let-modal>
+    <div class="modal-header bg-light p-3">
+        <h5 class="modal-title" id="exampleModalLabel">Ajouter Véhicule</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <form (ngSubmit)="saveListJs()" [formGroup]="listJsForm" class="tablelist-form" autocomplete="off">
+        <div class="modal-body">
+            <div class="row g-3">
+
+            <input type="hidden" name="id" value="" formControlName="ids" />
+
+            <div class="mb-3" id="modal-id" style="display: none;">
+                <label for="id-field" class="form-label">ID</label>
+                <input type="text" id="id-field" class="form-control" placeholder="ID" readonly />
+            </div>
+
+            
+            <div class="mb-3">
+                <label for="nom-field" class="form-label">Nom Véhicule</label>
+                <input type="text" id="nom-field" class="form-control" placeholder="Entrer Nom" required formControlName="nom" [ngClass]="{ 'is-invalid': submitted && form['nom'].errors }" />
+                <div class="invalid-feedback">Veuillez entrer le nom</div>
+            </div>
+
+            <div class="col-lg-6">
+                <label for="modele-field" class="form-label">Modéle</label>
+                <input type="text" id="modele-field" class="form-control" placeholder="Entrer Modele"  formControlName="modele" [ngClass]="{ 'is-invalid': submitted && form['modele'].errors }" />
+                <div class="invalid-feedback">Veuillez entrer le modéle</div>
+            </div>
+
+            <div class="col-lg-6">
+                <label for="marque-field" class="form-label">Marque</label>
+                <input type="text" id="marque-field" class="form-control" placeholder="Entrer Marque"  formControlName="marque" [ngClass]="{ 'is-invalid': submitted && form['marque'].errors }" />
+                <div class="invalid-feedback">Veuillez entrer la marque.</div>
+            </div>
+
+            <div class="col-lg-6">
+                <label for="proprietaire-field" class="form-label">Propriétaire</label>
+                <input type="text" id="proprietaire-field" class="form-control" placeholder="Entrer Propriétaire" required formControlName="proprietaire" [ngClass]="{ 'is-invalid': submitted && form['proprietaire'].errors }" />
+                <div class="invalid-feedback">Veuillez entrer Propriétaire</div>
+            </div>
+
+            <div class="col-lg-6">
+                <label for="type-field" class="form-label">Art de Véhicule</label>
+                <input type="text" id="type-field" class="form-control" placeholder="Entrer Art de Véhicule"  formControlName="type" [ngClass]="{ 'is-invalid': submitted && form['type'].errors }" />
+                <div class="invalid-feedback">Veuillez entrer l'Art de Véhicule.</div>
+            </div>
+
+            <div class="col-lg-6">
+                <label for="matricule-field" class="form-label">Matricule</label>
+                <input type="text" id="matricule-field" class="form-control" placeholder="Entrer Immatriculation."  formControlName="matricule" [ngClass]="{ 'is-invalid': submitted && form['matricule'].errors }" />
+                <div class="invalid-feedback">veuillez entrer matricule.</div>
+            </div>
+         
+
+          
+
+         
+
+
+            <div class="col-lg-6">
+                <label for="date-field" class="form-label">Date Fabrication</label>
+                <input class="form-control flatpickr-input" type="text"
+                       mwlFlatpickr [altInput]="true" [convertModelValue]="true"
+                       formControlName="datefabrication"
+                       [ngClass]="{ 'is-invalid': submitted && form['datefabrication'].errors }">
+                <!-- Affichage du message d'erreur en cas de validation invalide -->
+                <div class="invalid-feedback" >
+                    Please select a date.
+                </div>
+            </div>
+
+
+            <div class="col-lg-6">
+                <label for="kilometrage-field" class="form-label">kilométrage</label>
+                <input type="text" id="kilometrage-field" class="form-control" placeholder="Enter kilométrage."  formControlName="kilometrage" [ngClass]="{ 'is-invalid': submitted && form['kilometrage'].errors }" />
+                <div class="invalid-feedback">veuillez entrer kilometrage.</div>
+            </div>
+         
+
+          
+
+         
+
+
+            <div class="col-lg-6">
+                <label for="date-field" class="form-label">Date D'Enregistrement</label>
+                <input class="form-control flatpickr-input" type="text"
+                       mwlFlatpickr [altInput]="true" [convertModelValue]="true"
+                       formControlName="dateenregistrement"
+                       [ngClass]="{ 'is-invalid': submitted && form['dateenregistrement'].errors }">
+                <!-- Affichage du message d'erreur en cas de validation invalide -->
+                <div class="invalid-feedback" >
+                    Please select a date.
+                </div>
+            </div>
+
+            <div>
+                <label for="status-field" class="form-label">Status</label>
+                <select class="form-control" data-trigger name="status-field" id="status-field" formControlName="status" required [ngClass]="{ 'is-invalid': submitted && form['status'].errors }">
+                    <option value="1">En Attente</option>
+                    <option value="2">En Livraison</option>
+                    <option value="3">En Réparation</option>
+                    <option value="4">Hors Service</option>
+                </select>
+                @if(submitted && form['status'].errors){
+                <div class="invalid-feedback" align="left">
+                    @if(form['status'].errors['required']){
+                    <div>status is required</div>
+                    }
+                </div>
+                }
+            </div>
+        </div>
+        </div>
+        <div class="modal-footer">
+            <div class="hstack gap-2 justify-content-end">
+
+
+                
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal" (click)="modal.close('Close click')">Fermer</button>
+                <button type="submit" class="btn btn-success" id="add-btn">Ajouter Véhicule</button>
+            </div>
+        </div>
+    </form>
+</ng-template>
+
+<!-- removeItemModal -->
+<ng-template #deleteModel let-modal>
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="btn-close" (click)="modal.dismiss('Cross click')"></button>
+        </div>
+        <div class="modal-body">
+            <div class="mt-2 text-center">
+                <lord-icon src="https://cdn.lordicon.com/gsqxdxog.json" trigger="loop" colors="primary:#f7b84b,secondary:#f06548" style="width:100px;height:100px"></lord-icon>
+                <div class="mt-4 pt-2 fs-15 mx-4 mx-sm-5">
+                    <h4>Are you Sure ?</h4>
+                    <p class="text-muted mx-4 mb-0">Are you Sure You want to Remove this Record ?</p>
+                </div>
+            </div>
+            <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
+                <button class="btn btn-link link-success fw-medium text-decoration-none" data-bs-dismiss="modal" (click)="modal.close('Close click')"><i class="ri-close-line me-1 align-middle"></i> Close</button>
+                <button type="button" class="btn w-sm btn-danger " id="delete-product" (click)="deleteData(deleteId)" (click)="modal.close('Close click')">Yes, Delete It!</button>
+            </div>
+        </div>
+    </div><!-- /.modal-content -->
+</ng-template>

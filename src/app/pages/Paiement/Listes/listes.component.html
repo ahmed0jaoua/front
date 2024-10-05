@@ -1,0 +1,169 @@
+<!-- Start Breadcrumbs -->
+<app-breadcrumbs title="paiement" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<!-- End Breadcrumbs -->
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card" id="orderList">
+      <div class="card-header  border-0">
+        <div class="row align-items-center gy-3">
+          <div class="col-sm">
+            <h5 class="card-title mb-0 flex-grow-1">Paiement</h5>
+          </div>
+          <div class="col-sm-auto">
+            <div class="d-flex gap-1 flex-wrap">
+              <button type="button" class="btn btn-success add-btn" data-bs-toggle="modal" id="create-btn"
+                data-bs-target="#showModal" routerLink="/paiement/create"><i
+                  class="ri-add-line align-bottom me-1"></i>Paiement BL </button>
+
+              <button class="btn btn-soft-danger" id="remove-actions" style="display: none"
+                (click)="deleteMultiple(deleteModel)"><i class="ri-delete-bin-2-line"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-body border border-dashed border-end-0 border-start-0">
+        <div class="row g-3">
+          <div class="col-xxl-5 col-sm-6">
+            <div class="search-box">
+              <input type="text" name="searchTerm" class="form-control" placeholder="Rechercher ... "
+                [(ngModel)]="searchTerm" (ngModelChange)="performSearch()">
+              <i class="ri-search-line search-icon"></i>
+            </div>
+          </div>
+          <!--end col-->
+
+        </div>
+        <!--end row-->
+      </div>
+      <div class="card-body pt-0">
+        <div>
+          <!-- Nav tabs -->
+          <ul ngbNav #nav="ngbNav" [activeId]="1" (navChange)="onNavChange($event)"
+            class="nav nav-tabs nav-tabs-custom nav-success mb-3">
+            <li [ngbNavItem]="1">
+              <a ngbNavLink>
+                <i class="ri-store-2-fill me-1 align-bottom"></i>Liste
+              </a>
+              <ng-template ngbNavContent>
+                <div class="table-responsive table-card mb-0">
+                  <table class="table  table-hover table-nowrap mb-0 table-bordered table-nowrap">
+                    <thead>
+                      <tr class="bg-light text-muted">
+
+                        <th class="sort" (click)="onSort('id')">N°Paiment</th>
+                        <th class="sort" (click)="onSort('reference')">N°BL</th>
+                        <th class="sort" (click)="onSort('codeClient')">Code client</th>
+                        <th class="sort" (click)="onSort('nomSiege')">nom Siege</th>
+                        <th class="sort" (click)="onSort('datePaiment')">date Paiment </th>
+                        <th class="sort">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @for(data of orderes;track $index){
+                      <tr id="o_{{data._id}}">
+                        <td>
+                          <ngb-highlight [result]="data?.id " [term]="searchTerm"></ngb-highlight>
+                        </td>
+
+                        <td>
+                          <ngb-highlight [result]="data?.reference ?? 'N/A'" [term]="searchTerm"></ngb-highlight>
+                        </td>
+
+                        <td>
+                          <ngb-highlight [result]="data?.codeClient?? 'N/A'" [term]="searchTerm"></ngb-highlight>
+                        </td>
+
+                        <td>
+                          <ngb-highlight [result]=" data?.nomSiege ?? 'N/A'" [term]="searchTerm"></ngb-highlight>
+                        </td>
+                        <td>
+                          <ngb-highlight [result]=" data?.datePaiment ?? 'N/A'" [term]="searchTerm"></ngb-highlight>
+                        </td>
+
+                        <td>
+                          <ul class="list-inline hstack gap-2 mb-0">
+
+                            <li class="list-inline-item me-0" ngbTooltip="Remove" placement="top"
+                              data-bs-toggle="tooltip" data-bs-trigger="hover"
+                              (click)="confirm(deleteModel,data.fiche_id)">
+                              <a class="text-danger d-inline-block remove-item-btn" data-bs-toggle="modal"
+                                data-bs-target="#deleteOrder">
+                                <i class="ri-delete-bin-5-fill fs-16"></i>
+                              </a>
+                            </li>
+                          </ul>
+                        </td>
+                      </tr>
+                      }
+                    </tbody>
+                  </table>
+
+                </div>
+                <div class="row justify-content-md-between align-items-md-center gy-2">
+                  <div class="col col-sm-6">
+                    <div class="dataTables_info mb-2" id="tickets-table_info" role="status" aria-live="polite">
+                      Showing
+                      {{service.startIndex}} to
+                      {{service.endIndex}} of {{allorderes?.length}}
+                      entries
+                    </div>
+                  </div>
+                  <!-- Pagination -->
+                  <div class="col col-sm-6">
+                    <div class="text-sm-right float-end listjs-pagination">
+                      <ngb-pagination [collectionSize]="allorderes?.length" [(page)]="service.page"
+                        [pageSize]="service.pageSize" (pageChange)="changePage()">
+                      </ngb-pagination>
+                    </div>
+                  </div>
+                  <!-- End Pagination -->
+                </div>
+              </ng-template>
+            </li>
+         
+
+
+          </ul>
+
+          <!-- Tab panes -->
+          <div class="tab-content text-muted">
+
+            <div [ngbNavOutlet]="nav"></div>
+          </div>
+
+
+        </div>
+      </div>
+
+    </div>
+    <!--end col-->
+  </div>
+  <!--end row-->
+
+  <!-- removeItemModal -->
+  <ng-template #deleteModel let-modal>
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="deleteRecord-close"
+          (click)="modal.dismiss('Cross click')"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mt-2 text-center">
+          <lord-icon src="https://cdn.lordicon.com/gsqxdxog.json" trigger="loop"
+            colors="primary:#405189,secondary:#f06548" style="width:90px;height:90px"></lord-icon>
+          <div class="mt-4 pt-2 fs-15 mx-4 mx-sm-5">
+            <h4>You are about to delete a order ?</h4>
+            <p class="text-muted mx-4 mb-0">Deleting your order will remove all of your information from our database.
+            </p>
+          </div>
+        </div>
+        <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
+          <button class="btn btn-link link-success fw-medium text-decoration-none" data-bs-dismiss="modal"
+            (click)="modal.close('Close click')"><i class="ri-close-line me-1 align-middle"></i> Close</button>
+          <button type="button" class="btn w-sm btn-danger " id="delete-product" (click)="deleteData()"
+            (click)="modal.close('Close click')">supprimer</button>
+        </div>
+      </div>
+    </div><!-- /.modal-content -->
+  </ng-template>

@@ -1,0 +1,1267 @@
+<!-- Start Breadcrumbs -->
+<app-breadcrumbs title="Bon livraison " [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<!-- End Breadcrumbs -->
+
+<div class="row">
+    <div class="col-xl-8">
+        <div class="card">
+            <div class="card-body checkout-tab">
+
+                <div class="step-arrow-nav mt-n3 mx-n3 mb-3">
+                    <ul ngbNav #customNav="ngbNav" [(activeId)]="activeNav"
+                        class="nav nav-pills custom-nav nav-justified" role="tablist">
+                        <li [ngbNavItem]=1 class="nav-item" (click)="onTabClick(1)" [class.disabled]="!canGoToStep(1)">
+                            <a ngbNavLink class="nav-link fs-15 p-3" data-bs-toggle="tab" role="tab">
+                                <i
+                                    class="ri-user-shared-fill fs-16 p-2 bg-primary-subtle text-primary rounded-circle align-middle mx-2"></i>
+                                Expéditeur
+                            </a>
+
+                            <ng-template ngbNavContent>
+
+
+
+
+                                <div class="col-12">
+                                    <div class="d-flex align-items-lg-center flex-lg-row flex-column">
+                                        <div class="flex-grow-1">
+                                            <h5 class="mb-1">Information Expéditeur</h5>
+                                        </div>
+                                        <div lass="mt-3 mt-lg-0">
+
+                                            <div class="row g-3 mb-0 align-items-center">
+
+                                                <!--end col-->
+                                                <div class="col-auto">
+                                                    <button type="button"
+                                                        class="btn btn-soft-warning waves-effect waves-light material-shadow-none"
+                                                        id="create-btn" [routerLink]="['/clients/listeClients']">
+                                                        <i class="ri-user-add-line align-bottom me-1"></i>Ajouter client
+                                                    </button>
+                                                </div>
+                                                <!--end col-->
+
+                                            </div>
+                                            <!--end row-->
+
+                                        </div>
+                                    </div><!-- end card header -->
+                                </div>
+
+                                <div>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="mb-3">
+                                                <label for="billinginfo-lastName" class="form-label">Code Client</label>
+                                                <input type="text" class="form-control" id="billinginfo-lastName"
+                                                    [class.is-invalid]="!codec && showValidationErrors"
+                                                    (ngModelChange)="onNomChangecode($event)" [(ngModel)]="codec"
+                                                    name="codec" placeholder="Entrer Code" value=""
+                                                    (click)="stopPropagation($event)">
+
+                                                <div *ngIf="filteredClientscode.length > 0" class="dropdown-menu show"
+                                                    (click)="stopPropagation($event)">
+                                                    <button class="dropdown-item" (click)="selectnone()">aucun</button>
+
+
+
+                                                    <button *ngFor="let client of filteredClientscode"
+                                                        class="dropdown-item" (click)="selectClient(client)">{{
+                                                        client.code }}</button>
+                                                </div>
+                                                <div *ngIf="!codec && showValidationErrors" class="invalid-feedback">
+                                                    Code Client is required.
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-6">
+                                            <div class="mb-3">
+                                                <label for="billinginfo-firstName" class="form-label">Client</label>
+                                                <input type="text" class="form-control" id="billinginfo-firstName"
+                                                    [class.is-invalid]="!nom1 && showValidationErrors"
+                                                    (ngModelChange)="onNomChange($event)" [(ngModel)]="nom1" name="nom1"
+                                                    placeholder="Entrer Nom" value="">
+                                                <div *ngIf="filteredClients.length > 0" class="dropdown-menu show">
+                                                    <button class="dropdown-item" (click)="selectnone()">aucun</button>
+
+                                                    <button *ngFor="let client of filteredClients" class="dropdown-item"
+                                                        (click)="selectClient(client)">{{ client.nom }}</button>
+                                                </div>
+                                                <div *ngIf="!nom1 && showValidationErrors" class="invalid-feedback">
+                                                    Client name is required.
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="mb-3">
+                                                <label for="billinginfo-phone" class="form-label">Téléphone</label>
+                                                <input type="text" class="form-control" id="billinginfo-phone"
+                                                    [class.is-invalid]="!phone && showValidationErrors"
+                                                    [(ngModel)]="phone" name="phone"
+                                                    placeholder="Entrer num Téléphone.">
+                                                <div *ngIf="!phone && showValidationErrors" class="invalid-feedback">
+                                                    Téléphone is required.
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-6">
+                                            <div class="mb-3">
+                                                <label for="billinginfo-email" class="form-label">Email <span
+                                                        class="text-muted">(Optional)</span></label>
+                                                <input type="email" class="form-control" id="billinginfo-email"
+                                                    [(ngModel)]="email" name="email" placeholder="Entrer email">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="billinginfo-address" class="form-label">Adresse</label>
+                                        <textarea class="form-control" id="billinginfo-address"
+                                            [class.is-invalid]="!adresse && showValidationErrors" [(ngModel)]="adresse"
+                                            name="adresse" placeholder="Entrer adresse" rows="3"></textarea>
+                                        <div *ngIf="!adresse && showValidationErrors" class="invalid-feedback">
+                                            Adresse is required.
+                                        </div>
+                                    </div>
+
+                                    <div class="d-flex align-items-start gap-3 mt-3"
+                                        *ngIf="nom1 !== null && nom1 !== ''">
+                                        <button type="button" class="btn btn-primary btn-label right ms-auto nexttab"
+                                            data-nexttab="pills-bill-address-tab" (click)="validateAndProceed()">
+                                            <i class="ri-truck-line label-icon align-middle fs-16 ms-2"></i>Suivant
+                                        </button>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </li>
+                        <li [ngbNavItem]="2" class="nav-item" (click)="onTabClick(2)"
+                            [class.disabled]="!canGoToStep(2)">
+                            <a ngbNavLink class="nav-link fs-15 p-3" data-bs-toggle="tab" role="tab">
+                                <i
+                                    class="ri-user-received-fill fs-16 p-2 bg-primary-subtle text-primary rounded-circle align-middle mx-2"></i>
+                                Destinataire
+                            </a>
+                            <ng-template ngbNavContent>
+                                <div>
+                                    <h5 class="mb-1">Information Destinataire</h5>
+                                    <p></p>
+                                </div>
+
+                                <div>
+                                    <div class="row">
+
+                                        <div class="col-sm-6">
+                                            <div class="mb-3">
+                                                <label for="billinginfo-firstName" class="form-label">code</label>
+                                                <input type="text" class="form-control" id="billinginfo-firstName"
+                                                    [class.is-invalid]="!nom1d && showValidationdesErrors"
+                                                    (ngModelChange)="onNomChangeDestCode($event)" [(ngModel)]="codecd"
+                                                    name="nom1d" placeholder="Code Destinataire" value="">
+                                                <div *ngIf="filteredDesCode.length > 0" class="dropdown-menu show">
+                                                    <button class="dropdown-item" (click)="selectnone()">aucun</button>
+
+                                                    <button *ngFor="let client of filteredDesCode" class="dropdown-item"
+                                                        (click)="selectDestinateur(client)">{{ client.code
+                                                        }}</button>
+                                                </div>
+                                                <div *ngIf="!nom1d && showValidationdesErrors" class="invalid-feedback">
+                                                    code is required.
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-6">
+                                            <div class="mb-3">
+                                                <label for="billinginfo-firstName" class="form-label">Nom</label>
+                                                <input type="text" class="form-control" id="billinginfo-firstName"
+                                                    [class.is-invalid]="!nom1d && showValidationdesErrors"
+                                                    (ngModelChange)="onNomChangeDest($event)" [(ngModel)]="nom1d"
+                                                    name="nom1d" placeholder="Nom Destinataire" value="">
+                                                <div *ngIf="filteredDes.length > 0" class="dropdown-menu show">
+                                                    <button class="dropdown-item" (click)="selectnone()">aucun</button>
+
+                                                    <button *ngFor="let client of filteredDes" class="dropdown-item"
+                                                        (click)="selectDestinateur(client)">{{ client.nom
+                                                        }}</button>
+                                                </div>
+                                                <div *ngIf="!nom1d && showValidationdesErrors" class="invalid-feedback">
+                                                    Nom is required.
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                       
+
+
+                                    </div>
+
+
+
+
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="mb-3">
+                                                <label for="billinginfo-phone" class="form-label">Téléphone</label>
+                                                <input type="text" class="form-control" id="billinginfo-phone"
+                                                    [class.is-invalid]="!phoned && showValidationdesErrors"
+                                                    [(ngModel)]="phoned" name="phoned"
+                                                    placeholder="Entrer numéro Téléphone.">
+                                                <div *ngIf="!phoned && showValidationdesErrors"
+                                                    class="invalid-feedback">
+                                                    Telephone is required.
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="mb-3">
+                                                <label for="billinginfo-email" class="form-label">Email
+                                                    <span class="text-muted">(Optional)</span></label>
+                                                <input type="email" class="form-control" id="billinginfo-email"
+                                                    [(ngModel)]="emaild" name="emaild" placeholder="Entrer email">
+
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="billinginfo-address" class="form-label">Adresse</label>
+                                        <textarea class="form-control" id="billinginfo-address" [(ngModel)]="adressed"
+                                            [class.is-invalid]="!adressed && showValidationdesErrors" name="adressed"
+                                            placeholder="Entrer adresse" rows="3"></textarea>
+                                        <div *ngIf="!adressed && showValidationdesErrors" class="invalid-feedback">
+                                            Adresse is required.
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="d-flex align-items-start gap-3 mt-3"
+                                        *ngIf="nom1d !== null && nom1d !== ''">
+                                        <button type="button" class="btn btn-primary btn-label right ms-auto nexttab"
+                                            data-nexttab="pills-bill-address-tab" (click)="validatedesAndProceed()"> <i
+                                                class="ri-truck-line label-icon align-middle fs-16 ms-2"></i>
+                                            Suivant</button>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </li>
+                        <li [ngbNavItem]="3" class="nav-item" (click)="onTabClick(3)"
+                            [class.disabled]="!canGoToStep(3)">
+                            <a ngbNavLink class="nav-link fs-15 p-3" data-bs-toggle="tab" role="tab">
+                                <i
+                                    class="mdi mdi-sitemap-outline fs-16 p-2 bg-primary-subtle text-primary rounded-circle align-middle mx-2"></i>
+                                &nbsp;&nbsp;&nbsp;Articles</a>
+                            <ng-template ngbNavContent>
+                                <!-- Start Breadcrumbs 
+                                <app-breadcrumbs title="Creation Bon reception"
+                                    [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+                                End Breadcrumbs -->
+
+                                <div class="row justify-content-center">
+                                    <div class="col-20">
+
+                                        <div class="row">
+                                            <div class="col-sm-3 col-lg-4">
+                                                <div class="mb-3">
+                                                    <label for="billinginfo-firstName"
+                                                        class="form-label">Reference</label>
+                                                    <input type="text" class="form-control" id="billinginfo-firstName"
+                                                        [class.is-invalid]="!reference && showValidationrefDErrors"
+                                                        [(ngModel)]="reference" name="reference" placeholder="Reference"
+                                                        value="">
+                                                    <div *ngIf=" showValidationrefDErrors" class="invalid-feedback">
+                                                        reference is required.
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-3 col-lg-4">
+                                                <div class="mb-8">
+                                                    <label for="billinginfo-phone" class="form-label">Date
+                                                        Livraison</label>
+                                                    <input type="date" class="form-control" id="billinginfo-phone"
+                                                        [class.is-invalid]="!reference && showValidationrefDErrors"
+                                                        [(ngModel)]="dateCreation" name="dateCreation"
+                                                        placeholder="Entrer date livraison ">
+                                                    <div *ngIf=" showValidationrefDErrors" class="invalid-feedback">
+                                                        date livraison is required.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- <div class="col-sm-3">
+                                                <div class="mb-3">
+                                                    <label for="livraison-lastName"
+                                                        class="form-label">Utilisateur </label>
+                                                    <ng-select [items]="uts"
+                                                        [class.is-invalid]="!selectedTypePaiment && showValidationArticlesErrors"
+                                                        [(ngModel)]="selectedUtilisateur"
+                                                        bindLabel="prenom"
+                                                        name="selectedTypePaiment">
+                                                        <ng-template ng-optgroup-tmp
+                                                            let-item="item">
+                                                            {{item.country || 'Unnamed group'}}
+                                                        </ng-template>  
+                                                    </ng-select>
+                                                    <div *ngIf="!selectedTypePaiment && showValidationArticlesErrors"
+                                                        class="invalid-feedback">
+                                                        selectedTypePaiment is required.
+                                                    </div>
+                                                </div>
+                                            </div> -->
+                                            <div class="col-sm-3 col-lg-4" style="background-color: white;">
+                                                <div class="mb-3" style="background-color: white;">
+                                                    <!-- <label for="billinginfo-lastName"
+                                                        class="form-label">chauffeur de ramassage</label>
+                                                    <ng-select [items]="listeChauffeurs"
+                                                       
+                                                        [(ngModel)]="selectedChauffeurR"
+                                                        bindLabel="nom"
+                                                        name="selectedTypePaiment">
+                                                        <ng-template ng-optgroup-tmp
+                                                            let-item="item">
+                                                            {{item.country || 'Unnamed group'}}
+                                                        </ng-template>
+                                                    </ng-select> -->
+
+                                                    <label for="livraison-lastName" class="form-label">Agent de
+                                                        rammassage </label>
+                                                    <div class="mb-3" style="background-color: white;">
+
+                                                        <ng-select [items]="Groups" bindLabel="label" groupBy="type"
+                                                            [(ngModel)]="selectedGroup" style="background-color: white;">
+
+                                                            <ng-template ng-optgroup-tmp let-item="item">
+                                                                {{ item.type }}
+                                                            </ng-template>
+                                                        </ng-select>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+                                        <div class="card justify-content-center">
+                                            <form id="invoice_form">
+                                                <!-- Form Body -->
+
+
+                                                <div class="card-body p-2">
+                                                    <!-- Articles Table Title -->
+                                                    <div>
+                                                        <h5 class="mb-1">Type Article</h5>
+                                                        <p class="text-muted mb-4">Veuillez sélectionner votre type
+                                                            d'article</p>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div>
+                                                            <div>
+
+
+                                                                <div class="row g-4">
+                                                                    <div class="col-lg-6">
+                                                                        <div class="form-check card-radio">
+                                                                            <input id="deliveryStatus01" type="radio"
+                                                                                [class.is-invalid]="!selectedDeliveryType && showValidationArticlesErrors"
+                                                                                class="form-check-input"
+                                                                                name="selectedDeliveryType"
+                                                                                [(ngModel)]="selectedDeliveryType"
+                                                                                value="colis">
+                                                                            <label class="form-check-label"
+                                                                                for="deliveryStatus01">
+                                                                                <span class="fs-16 text-warning me-2"><i
+                                                                                        class="mdi mdi-package-variant align-bottom"></i></span>
+                                                                                <span
+                                                                                    class="fs-14 text-wrap">Colis</span>
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-6">
+                                                                        <div class="form-check card-radio">
+                                                                            <input id="deliveryStatus02" type="radio"
+                                                                                [class.is-invalid]="!selectedDeliveryType && showValidationArticlesErrors"
+                                                                                class="form-check-input"
+                                                                                name="selectedDeliveryType"
+                                                                                [(ngModel)]="selectedDeliveryType"
+                                                                                value="courier">
+
+                                                                            <label class="form-check-label"
+                                                                                for="deliveryStatus02">
+                                                                                <span class="fs-16 text-warning me-2"><i
+                                                                                        class="mdi mdi-email-multiple-outline align-bottom"></i></span>
+                                                                                <span
+                                                                                    class="fs-14 text-wrap">Envoloppe</span>
+                                                                            </label>
+                                                                        </div>
+                                                                        <div *ngIf=" showValidationArticlesErrors"
+                                                                            class="invalid-feedback">
+                                                                            type colis is required.
+                                                                        </div>
+                                                                    </div>
+
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="card p-4 border shadow-none mb-0 mt-4">
+                                                        <div class="row ">
+                                                            <div class="col-lg-5">
+                                                                <div class="mb-3">
+                                                                    <label for="billinginfo-lastName"
+                                                                        class="form-label">libelle article</label>
+                                                                    <input type="email" class="form-control"
+                                                                        [class.is-invalid]="!libellearticle && showValidationArticlesErrors"
+                                                                        id="billinginfo-email"
+                                                                        [(ngModel)]="libellearticle"
+                                                                        name="libellearticle"
+                                                                        placeholder="Entrer libelle article" required>
+                                                                    <div *ngIf="!libellearticle && showValidationArticlesErrors"
+                                                                        class="invalid-feedback">
+                                                                        libelle article is required.
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-3">
+                                                                <div class="mb-3">
+                                                                    <label for="billinginfo-firstName"
+                                                                        class="form-label">Quantité</label> <br>
+                                                                    <div class="input-step">
+                                                                        <button type="button" class="minus shadow"
+                                                                            (click)="decrement()">–</button>
+                                                                        <input type="number" class="product-quantity"
+                                                                            value="{{counter}}" min="1" max="1000"
+                                                                            [(ngModel)]="quantite" name="quantite">
+                                                                        <button type="button" class="plus shadow"
+                                                                            (click)="increment()">+</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-4">
+                                                                <div class="mb-3">
+                                                                    <label for="billinginfo-email"
+                                                                        class="form-label">Frais du livraison</label>
+                                                                    <input type="text" class="form-control"
+                                                                        [class.is-invalid]="!isValidFloat(frais) && showValidationArticlesErrors"
+                                                                        id="billinginfo-email" [(ngModel)]="frais"
+                                                                        name="frais" placeholder="Enter frais">
+                                                                    <div *ngIf="!isValidFloat(frais) && showValidationArticlesErrors"
+                                                                        class="invalid-feedback">
+                                                                        Frais is required and must be a valid number.
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+
+
+                                                            <!-- "Type Colis" and "Description" fields, visible only if "Colis" is selected -->
+
+                                                        </div>
+                                                        <div class="row">
+
+
+                                                            <!-- "Type Colis" and "Description" fields, visible only if "Colis" is selected -->
+                                                            <div class="col-sm-6 "
+                                                                *ngIf="selectedDeliveryType === 'colis'">
+                                                                <div class="mb-3">
+                                                                    <label for="billinginfo-lastName"
+                                                                        class="form-label">Type Colis</label>
+                                                                    <ng-select [items]="listeTypeColis"
+                                                                        [(ngModel)]="selectedTypeColis" bindLabel="type"
+                                                                        name="selectedTypeColis">
+                                                                        <ng-template ng-optgroup-tmp let-item="item">
+                                                                            {{item.country || 'Unnamed group'}}
+                                                                        </ng-template>
+                                                                    </ng-select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+
+                                                            <div class="row">
+                                                                <div class="col-sm-6">
+                                                                    <div class="mb-3">
+                                                                        <label for="billinginfo-lastName"
+                                                                            class="form-label">type de paiement</label>
+                                                                        <ng-select [items]="listeTypePaiement"
+                                                                            [class.is-invalid]="!selectedTypePaiment && showValidationArticlesErrors"
+                                                                            [(ngModel)]="selectedTypePaiment"
+                                                                            bindLabel="libelle"
+                                                                            name="selectedTypePaiment">
+                                                                            <ng-template ng-optgroup-tmp
+                                                                                let-item="item">
+                                                                                {{item.country || 'Unnamed group'}}
+                                                                            </ng-template>
+                                                                        </ng-select>
+                                                                        <div *ngIf="!selectedTypePaiment && showValidationArticlesErrors"
+                                                                            class="invalid-feedback">
+                                                                            selectedTypePaiment is required.
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-sm-6">
+                                                                    <div class="mb-3"
+                                                                        *ngIf="selectedTypePaiment?.id ===1">
+                                                                        <label for="billinginfo-phone"
+                                                                            class="form-label">Mode
+                                                                            de paiement </label>
+                                                                        <ng-select [items]="listeModePaiement"
+                                                                            [(ngModel)]="selectedModePaiment"
+                                                                            bindLabel="libelle"
+                                                                            name="selectedModePaiment">
+                                                                            <ng-template ng-optgroup-tmp
+                                                                                let-item="item">
+                                                                                {{item.country || 'Unnamed group'}}
+                                                                            </ng-template>
+                                                                        </ng-select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="mb-3" *ngIf="selectedDeliveryType === 'colis'">
+                                                            <label for="billinginfo-address"
+                                                                class="form-label">Description</label>
+                                                            <textarea class="form-control" id="billinginfo-address"
+                                                                [(ngModel)]="description" name="description"
+                                                                placeholder="Enter description" rows="3"></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card p-4 border shadow-none mb-0 mt-4">
+
+
+                                                        <div class="form-switch-md form-switch form-switch-danger">
+                                                            <input class="form-check-input" type="checkbox" id="CR"
+                                                                (click)="ShowInput($event)" [(ngModel)]="CR" name="CR">
+                                                            <label class="form-check-label" for="CR">Contre
+                                                                Remboursement </label>
+                                                        </div>
+
+
+
+
+                                                        <div class="row m-3" *ngIf="CR">
+                                                            <div class="col-sm-6">
+                                                                <div class="mb-3">
+                                                                    <label for="billinginfo-email"
+                                                                        class="form-label">Montant de Remboursement
+                                                                    </label>
+                                                                    <input type="number" class="form-control"
+                                                                        id="billinginfo-email" [(ngModel)]="MontantCR"
+                                                                        name="MontantCR"
+                                                                        placeholder="Entrer Montant de Remboursement">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-6">
+                                                                <div class="mb-3">
+                                                                    <label for="billinginfo-lastName"
+                                                                        class="form-label">Type de paiement CR</label>
+                                                                    <ng-select [items]="listeTypePaiement"
+                                                                        [(ngModel)]="selectedTypePaimentCR"
+                                                                        bindLabel="libelle"
+                                                                        name="selectedTypePaimentCR">
+                                                                        <ng-template ng-optgroup-tmp let-item="item">
+                                                                            {{item.country || 'Unnamed group'}}
+                                                                        </ng-template>
+                                                                    </ng-select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-6">
+                                                                <div class="mb-3">
+                                                                    <label for="billinginfo-lastName"
+                                                                        class="form-label">Mode de paiement CR</label>
+                                                                    <ng-select [items]="listeModePaiement"
+                                                                        [(ngModel)]="selectedModePaimentCR"
+                                                                        bindLabel="libelle"
+                                                                        name="selectedModePaimentCR">
+                                                                        <ng-template ng-optgroup-tmp let-item="item">
+                                                                            {{item.country || 'Unnamed group'}}
+                                                                        </ng-template>
+                                                                    </ng-select>
+                                                                </div>
+                                                            </div>
+
+
+                                                            <div class="row" *ngIf="selectedModePaimentCR?.id ===2">
+                                                                <div class="card p-4 border shadow-none mb-0 mt-4">
+                                                                    <div class="row">
+                                                                        <div class="col-sm-4">
+                                                                            <div class="mb-3">
+                                                                                <label for="billinginfo-email"
+                                                                                    class="form-label">Numéro de chéque
+                                                                                </label>
+                                                                                <input type="text" class="form-control"
+                                                                                    id="billinginfo-email"
+                                                                                    [(ngModel)]="numerocheque"
+                                                                                    name="numerocheque"
+                                                                                    placeholder="Entrer numéro chéque">
+                                                                            </div>
+                                                                        </div>
+
+
+                                                                        <div class="col-sm-4">
+                                                                            <div class="mb-3">
+                                                                                <label for="billinginfo-email"
+                                                                                    class="form-label">Date d'écheance
+                                                                                </label>
+                                                                                <input type="date" class="form-control"
+                                                                                    id="datecheque-email"
+                                                                                    [(ngModel)]="datecheque"
+                                                                                    name="datecheque"
+                                                                                    placeholder="Entrer datecheque">
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="col-sm-4">
+                                                                            <div class="mb-3">
+                                                                                <label for="billinginfo-email"
+                                                                                    class="form-label">Banque
+                                                                                </label>
+                                                                                <input type="text" class="form-control"
+                                                                                    id="billinginfo-email"
+                                                                                    [(ngModel)]="nombanque"
+                                                                                    name="nombanque"
+                                                                                    placeholder="Entrer Nom du banque">
+                                                                            </div>
+                                                                        </div>
+
+
+
+
+
+
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+
+                                                        </div>
+
+
+                                                    </div>
+
+
+                                                    <div class="card shadow-none mb-0 mt-4">
+
+                                                        <div class="col-12 text-end">
+
+
+                                                            <button type="button"
+                                                                class="btn btn-soft-success shadow-none"
+                                                                (click)="addEntry()">
+                                                                <i class="ri-add-circle-line align-middle me-1"></i>
+                                                                Enregister Article
+                                                            </button>
+                                                        </div>
+
+                                                    </div>
+
+
+
+
+
+                                                </div>
+                                                <!--end card-body-->
+
+                                                <div class="card-footer">
+
+
+                                                    <div class="d-flex align-items-start gap-3 mt-3"
+                                                        *ngIf="reference !== null && reference !== '' && formDataList.length > 0">
+
+                                                        <button type="button" *ngIf="editIndex === null"
+                                                            class="btn btn-primary btn-label right ms-auto nexttab"
+                                                            data-nexttab="pills-bill-address-tab"
+                                                            (click)="validaterefDAndProceed()"><i
+                                                                class="ri-truck-line label-icon align-middle fs-16 ms-2"></i>trajectoire
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <!--end card-->
+                                    </div>
+                                    <!--end col-->
+                                </div>
+                                <!--end row-->
+                            </ng-template>
+                        </li>
+                        <li [ngbNavItem]="4" class="nav-item" (click)="onTabClick(4)"
+                            [class.disabled]="!canGoToStep(4)">
+                            <a ngbNavLink class="nav-link fs-15 p-3" data-bs-toggle="tab" role="tab">
+                                <i
+                                    class="ri-route-line fs-16 p-2 bg-primary-subtle text-primary rounded-circle align-middle mx-2"></i>
+                                Trajectoire
+                            </a>
+                            <ng-template ngbNavContent>
+                                <div>
+                                    <h5 class="mb-1">Trajectoire</h5>
+                                    <p class="text-muted mb-4"></p>
+
+                                    <div class=" text-end flex-shrink-0">
+                                        <!-- Button trigger modal -->
+                                        <button type="button" class="btn btn-sm btn-success mb-3" data-bs-toggle="modal"
+                                            data-bs-target="#addAddressModal" (click)="openModal(content)">
+                                            Ajouter trajet
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="row gy-3">
+                                    <div class="col-lg-4 col-sm-6">
+                                        <div class="form-check card-radio">
+                                            <input id="shippingAddress01" name="shippingAddress" type="radio"
+                                                class="form-check-input" checked>
+                                            <label class="form-check-label" for="shippingAddress01">
+                                                <span class="mb-4 fw-semibold d-block text-muted text-uppercase">Adresse
+                                                    Expéditeur</span>
+
+                                                <span class="fs-14 mb-2 d-block">{{nom1}}</span>
+                                                <span
+                                                    class="text-muted fw-normal text-wrap mb-1 d-block">{{adresse}}</span>
+                                                <span class="text-muted fw-normal d-block">{{phone}}</span>
+                                            </label>
+                                        </div>
+                                        <div class="d-flex flex-wrap p-2 py-1 bg-light rounded-bottom border mt-n1">
+                                            <div>
+                                                <a href="javascript:void(0);" class="d-block text-body p-1 px-2"
+                                                    data-bs-toggle="modal" data-bs-target="#addAddressModal"
+                                                    (click)="openModal1(0)"><i
+                                                        class="ri-pencil-fill text-muted align-bottom me-1"></i>
+                                                    Edit</a>
+                                            </div>
+                                            <div>
+                                                <a href="javascript:void(0);" class="d-block text-body p-1 px-2"
+                                                    data-bs-toggle="modal" data-bs-target="#removeItemModal"
+                                                    (click)="confirm(deleteModel)"><i
+                                                        class="ri-delete-bin-fill text-muted align-bottom me-1"></i>
+                                                    Supprimer</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-1 col-sm-6"></div>
+                                    <div class="col-lg-4 col-sm-6">
+                                        <div class="form-check card-radio">
+                                            <input id="shippingAddress02" name="shippingAddress" type="radio"
+                                                class="form-check-input">
+                                            <label class="form-check-label" for="shippingAddress02">
+                                                <span class="mb-4 fw-semibold d-block text-muted text-uppercase">
+                                                    Adresse Destinataire</span>
+
+                                                <span class="fs-14 mb-2 d-block">{{nom1d}}</span>
+                                                <span class="text-muted fw-normal text-wrap mb-1 d-block">{{adressed}}
+                                                </span>
+                                                <span class="text-muted fw-normal d-block">{{phoned}}</span>
+                                            </label>
+                                        </div>
+                                        <div class="d-flex flex-wrap p-2 py-1 bg-light rounded-bottom border mt-n1">
+                                            <div>
+                                                <a href="javascript:void(0);" class="d-block text-body p-1 px-2"
+                                                    data-bs-toggle="modal" data-bs-target="#addAddressModal"
+                                                    (click)="openModal1(1)"><i
+                                                        class="ri-pencil-fill text-muted align-bottom me-1"></i>
+                                                    Modifier</a>
+                                            </div>
+                                            <div>
+                                                <a href="javascript:void(0);" class="d-block text-body p-1 px-2"
+                                                    data-bs-toggle="modal" data-bs-target="#removeItemModal"
+                                                    (click)="confirm(deleteModel)"><i
+                                                        class="ri-delete-bin-fill text-muted align-bottom me-1"></i>
+                                                    Supprimer</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mt-4">
+
+                                    <div class="row gy-3">
+                                        <!-- Add your target list table here -->
+                                        <div *ngIf="targets.length > 0" class="table-responsive">
+                                            <table class="table table-bordered table-striped table-hover">
+                                                <thead class="table-gray">
+                                                    <tr>
+                                                        <th>Point Initial</th>
+                                                        <th>Point Final</th>
+                                                        <th>Chauffeur</th>
+                                                        <th>Véhicule</th>
+                                                        <th>Order </th>
+                                                        <th>Actions</th>
+
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr *ngFor="let target of targets; let i = index">
+                                                        <td>{{ target?.site1?.nom ?? target?.destdebut }}</td>
+                                                        <td>{{ target?.site2?.nom ??target?.destfin }}</td>
+                                                        <td>{{ target?.chauffeur?.nom }}-{{ target?.chauffeur?.prenom }}
+                                                        </td>
+                                                        <td>{{ target?.vehicule?.matricule }}</td>
+                                                        <td>{{target?.order1 }}</td>
+                                                        <td>
+                                                            <div class="d-flex justify-content-around">
+                                                                <a href="javascript:void(0);" 
+                                                                class="link-success fs-15"
+                                                                (click)="editTarget(content, i, target.id)"
+                                                                [class.disabled]="target.etat === '2' || target.etat === '3'" 
+                                                                [attr.disabled]="target.etat === '2' || target.etat === '3' ? true : null">
+                                                                <i class="ri-edit-2-line"></i>
+                                                            </a>
+
+                                                            <a href="javascript:void(0);" 
+                                                                class="link-danger fs-15"
+                                                                (click)="deleteTarget(i)"
+                                                                [class.disabled]="target.etat === '2' || target.etat === '3'" 
+                                                                [attr.disabled]="target.etat === '2' || target.etat === '3' ? true : null">
+                                                                <i class="ri-delete-bin-line"></i>
+                                                            </a>
+                                
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                    </div>
+
+
+
+                                </div>
+                                <br><br>
+                                <div class="d-flex align-items-start gap-3 mt-4">
+                                    <button type="button" class="btn btn-light btn-label previestab"
+                                        data-previous="pills-bill-info-tab"><i
+                                            class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i>Retour</button>
+                                    <button type="button" class="btn btn-primary btn-label right ms-auto nexttab"
+                                        data-nexttab="pills-payment-tab" (click)="submitforme2()"
+                                        *ngIf="targets.length > 0"><i
+                                            class="ri-bank-card-line label-icon align-middle fs-16 ms-2"></i>Enregistrer
+                                        BL</button>
+
+
+                                </div>
+                            </ng-template>
+                        </li>
+
+                        <li [ngbNavItem]="5" class="nav-item" (click)="onTabClick(5)"
+                            [class.disabled]="!canGoToStep(5)">
+                            <a ngbNavLink class="nav-link fs-15 p-3" data-bs-toggle="tab" role="tab">
+                                <i
+                                    class="ri-checkbox-circle-line fs-16 p-2 bg-primary-subtle text-primary rounded-circle align-middle mx-2"></i>
+                                &nbsp;&nbsp;&nbsp;&nbsp;Terminer
+                            </a>
+                            <ng-template ngbNavContent>
+                                <div class="text-center py-5">
+                                    <div class="mb-4">
+                                        <lord-icon src="https://cdn.lordicon.com/lupuorrc.json" trigger="loop"
+                                            colors="primary:#0ab39c,secondary:#405189"
+                                            style="width:120px;height:120px"></lord-icon>
+                                    </div>
+                                    <h5>Livraison crée avec succès !</h5>
+                                    <h3 class="fw-semibold">livraison <a
+                                            [routerLink]="['/bon/bondetails',livraison?.id]"
+                                            class="text-decoration-underline">{{livraison?.reference ??'auccun'}}</a> <a
+                                            (click)="suivant () " class="text-decoration-underline"> imprimer</a></h3>
+                                </div>
+                            </ng-template>
+                        </li>
+
+                        <li [ngbNavItem]="6" class="nav-item" (click)="onTabClick(6)"
+                            [class.disabled]="!canGoToStep(6)">
+                            <a ngbNavLink class="nav-link fs-15 p-3" data-bs-toggle="tab" role="tab">
+                                <i
+                                    class="mdi mdi-sitemap-outline fs-16 p-2 bg-primary-subtle text-primary rounded-circle align-middle mx-2"></i>
+                                &nbsp;&nbsp;&nbsp;Bon Livraison
+                            </a>
+
+                            <ng-template ngbNavContent style="padding: 50px;">
+                                <div id="printableLi6Content">
+                                    <!-- Content to be printed -->
+                                    <div class="bl-number">BL No:{{livraison?.reference ??'auccun'}} </div>
+                                    <img src="assets/images/logo-light.jpg" alt="Societe Logo"
+                                        style="height: 50px; margin-bottom: 15px;">
+                                    <p>Siege : {{livraison?.site?.nom ??'auccun'}}<br>Adresse
+                                        :{{livraison?.site?.adresse
+                                        ??'auccun'}}<br>societe : {{livraison?.societe?.nom ??'auccun'}}<br>Code postal,
+                                        Ville<br>Téléphone: {{livraison?.site?.telephone ??'auccun'}}</p>
+                                    <div class="tete">
+                                        <p>Livraison details</p>
+                                    </div>
+
+                                    <hr class="divider">
+                                    <table class="table table-bordered">
+
+                                        <tbody>
+
+                                            <tr>
+                                                <td style="text-align: center; width: 400px; ">
+                                                    <h2>glx</h2>
+                                                </td>
+                                                <td style="text-align: center; ">
+                                                    <h2>reference</h2>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="text-align: center; width: 400px; ">
+                                                    <h6>Expediteur:</h6>{{livraison?.expediteur ??'auccun'}}
+                                                </td>
+                                                <td style="text-align: center; width: 400px; ">
+                                                    <h6>Telephone:</h6>{{livraison?.telephoneExpediteur ??'auccun'}}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="text-align: center; width: 400px; ">
+                                                    <h6>Ville/localite</h6>{{livraison?.adresseExpediteur ??'auccun'}}
+                                                </td>
+                                                <td style="text-align: center; width: 400px; ">
+                                                    <h6>Adresse</h6>{{livraison?.adresseExpediteur ??'auccun'}}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="text-align: center; width: 400px; ">
+                                                    <h6>Destinataire(Nom/Entite)</h6> {{ livraison?.Destinataire
+                                                    ??'auccun'}}
+                                                </td>
+                                                <td style="text-align: center; width: 400px; ">
+                                                    <h6>Telephone </h6> {{livraison?.telephoneDestinataire ??'auccun'}}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="text-align: center; width: 400px; ">
+                                                    <h6>Ville/Localite </h6> {{livraison?.adresseDestinataire
+                                                    ??'auccun'}}
+                                                </td>
+                                                <td style="text-align: center; width: 400px; ">
+                                                    <h6>Adresse </h6> {{livraison?.adresseDestinataire ??'auccun'}}
+                                                </td>
+                                            </tr>
+
+                                            <!--<tr *ngFor="let ligne of listeLigne">
+                                                <td style="text-align: center; width: 400px; ">aa</td>
+                                                <td style="text-align: center; width: 400px; ">{{ ligne?.quantite }}</td>
+                                            
+                                            </tr>-->
+                                            <tr>
+                                                <td style="padding: 0; margin: 0;">
+                                                    <table
+                                                        style="padding: 0; margin: 0; border-spacing: 0; border-collapse: collapse; width: 100%;">
+                                                        <tbody>
+                                                            <tr style="height: 40px;">
+                                                                <th scope="row"
+                                                                    style="border-right: 0.5px solid #dbdbdb; text-align: center; width: 33.33%;">
+                                                                    <h6>Type</h6>
+                                                                </th>
+                                                                <th scope="row"
+                                                                    style="border-right: 0.5px solid #dbdbdb; text-align: center; width: 33.33%;">
+                                                                    <h6>Service</h6>
+                                                                </th>
+                                                                <th scope="row"
+                                                                    style="text-align: center; width: 33.33%; ">
+                                                                    <h6>Dimensions</h6>
+                                                                </th>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                                <td style="padding: 0; margin: 0;">
+                                                    <table
+                                                        style="padding: 0; margin: 0; border-spacing: 0; border-collapse: collapse; width: 100%;">
+                                                        <tbody>
+                                                            <tr style="height: 40px;">
+                                                                <th scope="row"
+                                                                    style="border-right: 0.5px solid #dbdbdb; text-align: center; width: 33.33%;">
+                                                                    <h6>Poids reel</h6>
+                                                                </th>
+                                                                <th scope="row"
+                                                                    style="border-right: 0.5px solid #dbdbdb; text-align: center; width: 33.33%;">
+                                                                    <h6>Poids</h6>
+                                                                </th>
+                                                                <th scope="row"
+                                                                    style="text-align: center; width: 33.33%; ">
+                                                                    <h6>Nb.piéces</h6>
+                                                                </th>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td style="text-align: center; width: 400px; " colspan="2">Destinataire
+                                                    Disponible</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="text-align: center; width: 400px; ">Reference :
+                                                    <br>{{livraison?.reference ??'auccun'}}
+                                                </td>
+                                                <td style="text-align: center; width: 400px; ">Date Creation :</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="text-align: center; width: 400px; " colspan="2">liste
+                                                    Articles</td>
+
+                                            </tr>
+                                            <tr>
+                                                <td style="text-align: center; width: 400px; ">Nom : </td>
+                                                <td style="text-align: center; width: 400px; ">Quantite :</td>
+                                            </tr>
+                                            <tr *ngFor="let ligne of listeLigne">
+                                                <td style="text-align: center; width: 400px; ">{{ ligne?.libellearticle
+                                                    ?? 'auccun' }}</td>
+                                                <td style="text-align: center; width: 400px; ">{{ ligne?.quantite ??
+                                                    'auccun' }}</td>
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                                <div class="hstack gap-2 justify-content-end d-print-none mt-4">
+                                    <button class="btn btn-success ri-printer-line align-bottom me-1"
+                                        printSectionId="printableLi6Content" [useExistingCss]="true" ngxPrint>
+                                        Imprimer
+                                    </button>
+
+                                </div>
+                            </ng-template>
+                        </li>
+
+
+                    </ul>
+                </div>
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div [ngbNavOutlet]="customNav"></div>
+                </div>
+
+            </div>
+            <!-- end card body -->
+        </div>
+        <!-- end card -->
+    </div>
+    <!-- end col -->
+
+    <div class="col-xl-4" *ngIf="formDataList.length > 0">
+        <div class="card">
+            <div class="card-header">
+                <div class="d-flex">
+                    <div class="flex-grow-1">
+                        <h5 class="card-title mb-0"></h5>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive table-card">
+                    <table class="table table-borderless align-middle mb-0">
+                        <thead class="table-light text-muted">
+                            <tr>
+                                <th scope="col" style="text-align: left; padding-left: 15px;">Article</th>
+                                <th scope="col" style="text-align: left; padding-left: 15px;">Quantite</th>
+                                <th scope="col" style="text-align: left; padding-left: 15px;">Frais</th>
+                                <th scope="col" class="text-end" style="text-align: left; padding-left: 15px;">Total
+                                </th>
+                                <th scope="col" style="text-align: right; padding-right: 15px;">Actions</th>
+
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of formDataList; let i = index">
+                                <td style="text-align: left; padding-left: 15px;">{{ item.libellearticle }}</td>
+                                <td style="text-align: left; padding-left: 15px;">{{ item.quantite }}</td>
+                                <td style="text-align: left; padding-left: 15px;">{{ item.frais | number:'1.3-3'}}</td>
+                                <td class="text-end" style="text-align: left; padding-left: 15px;">{{ item.quantite *
+                                    item.frais | number:'1.3-3' }}</td>
+
+                                <td style="text-align: right; padding-left: 15px;">
+
+
+
+                                    <a href="javascript:void(0);" class="link-success fs-15"
+                                        (click)="editEntry(i,item.id)">
+                                        <i class="ri-edit-2-line"></i>
+                                    </a>
+                                    <a href="javascript:void(0);" class="link-danger fs-15" (click)="deleteEntry(i)">
+                                        <i class="ri-delete-bin-line"></i>
+                                    </a>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="fw-semibold" colspan="4" style="text-align: left; padding-left: 15px;">Nb
+                                    Article</td>
+                                <td class="fw-semibold text-end" colspan="2">{{ getTotalQuantite()}}</td>
+                            </tr>
+                            <tr class="table-active">
+                                <th colspan="4">Total Frais:</th>
+                                <td class="text-end">
+                                    <span class="fw-semibold">
+                                       {{ getTotalFrais()|  number:'1.3-3'}}
+                                    </span>
+                                </td>
+                            </tr>
+                            <!-- <tr class="table-active">
+                                <th colspan="4">Total cr:</th>
+                                <td class="text-end">
+                                    <span class="fw-semibold">
+                                        {{getTotalCR()}}
+                                    </span>
+                                </td>
+                            </tr> -->
+
+
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+
+            <!-- end card body -->
+        </div>
+        <!-- end card -->
+    </div>
+    <!-- end col -->
+</div>
+<!-- end row -->
+
+<!-- editItemModal -->
+<ng-template #content role="document" let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title" id="addAddressModalLabel">trajectoire</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+            (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <div>
+            <!-- Site 1 -->
+            <div class="mb-3">
+                <label for="site-select1" class="form-label">Destination A</label>
+                <ng-select [items]="sitesWithOther" bindLabel="nom" [(ngModel)]="selectedTargets.site1"
+                    (change)="onSite1Change($event)" placeholder="Select a site">
+                    <ng-template ng-optgroup-tmp let-item="item">
+                        {{item.adresse || 'Unnamed group'}}
+                    </ng-template>
+                </ng-select>
+            </div>
+
+            <!-- Site 2 -->
+            <div class="mb-3">
+                <label for="site-select2" class="form-label">Destination b </label>
+                <ng-select [items]="sitesWithOther2" bindLabel="nom" [(ngModel)]="selectedTargets.site2"
+                    (change)="onSite2Change($event)" placeholder="Select a site">
+                    <ng-template ng-optgroup-tmp let-item="item">
+                        {{item.adresse || 'Unnamed group'}}
+                    </ng-template>
+                </ng-select>
+                
+            </div>
+            <!-- Livreur -->
+            <div class="mb-3">
+                <label for="livreur" class="form-label">chauffeur</label>
+                <ng-select [items]="listeChauffeurs" bindLabel="label" [(ngModel)]="selectedTargets.chauffeur">
+                    <ng-template ng-optgroup-tmp let-item="item">
+                        {{item.country || 'Unnamed group'}}
+                    </ng-template>
+                </ng-select>
+            </div>
+            <div class="mb-3">
+                <label for="Vehicule" class="form-label">Vehicule</label>
+                <ng-select [items]="listeVehicule" bindLabel="matricule" [(ngModel)]="selectedTargets.vehicule">
+                    <ng-template ng-optgroup-tmp let-item="item">
+                        {{item.country || 'Unnamed group'}}
+                    </ng-template>
+                </ng-select>
+            </div>
+            <div class="mb-3">
+                <label for="order-trajet" class="form-label">order
+                </label>
+                <input type="number" class="form-control" id="order-email" [(ngModel)]="order1" name="nombanque"
+                    placeholder="order">
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light" data-bs-dismiss="modal"
+            (click)="modal.close('Close click')">Fermer</button>
+        <button type="submit" class="btn btn-success" (click)="submitforme1()">{{ trajetStatus ? 'modifier' : 'ajouter'
+            }} Trajectoire
+
+        </button>
+    </div>
+</ng-template>
+
+<!-- removeItemModal -->
+<ng-template #deleteModel let-modal>
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="btn-close"
+                (click)="modal.dismiss('Cross click')"></button>
+        </div>
+        <div class="modal-body">
+            <div class="mt-2 text-center">
+                <lord-icon src="https://cdn.lordicon.com/gsqxdxog.json" trigger="loop"
+                    colors="primary:#f7b84b,secondary:#f06548"></lord-icon>
+                <div class="mt-4 pt-2 fs-15 mx-4 mx-sm-5">
+                    <h4>Are you sure ?</h4>
+                    <p class="text-muted mx-4 mb-0">Are you sure you want to remove this address ?</p>
+                </div>
+            </div>
+            <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
+                <button type="button" class="btn w-sm btn-light" data-bs-dismiss="modal"
+                    (click)="modal.close('Close click')">Close</button>
+                <button type="button" class="btn w-sm btn-danger " id="delete-product">Yes, Delete It!</button>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<div class="modal" tabindex="-1" *ngIf="showModal" style="display: block; background-color: rgba(0, 0, 0, 0.5);   top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+ 
+align-items: center;
+justify-content: center;
+background-color: rgba(0, 0, 0, 0.5);;">
+
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">modifier</h5>
+                <button type="button" class="btn-close" aria-label="Close" (click)="closeModal()"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="billinginfo-phone" class="form-label">nom </label>
+                    <input type="text" class="form-control" id="billinginfo-phone" [(ngModel)]="nomt" name="nomt"
+                        placeholder="Enter phone no.">
+                </div>
+                <div class="mb-3">
+                    <label for="billinginfo-phone" class="form-label">adresse</label>
+                    <input type="text" class="form-control" id="billinginfo-phone" [(ngModel)]="adresset"
+                        name="adresset" placeholder="Enter phone no.">
+                </div>
+                <div class="mb-3">
+                    <label for="billinginfo-phone" class="form-label">Telephone</label>
+                    <input type="text" class="form-control" id="billinginfo-phone" [(ngModel)]="phonet" name="phonet"
+                        placeholder="Enter phone no.">
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
+                <button type="button" class="btn btn-secondary" (click)="editAdresse()">edit</button>
+            </div>
+        </div>
+    </div>
+</div>

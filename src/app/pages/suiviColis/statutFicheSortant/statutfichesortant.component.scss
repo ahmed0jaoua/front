@@ -1,0 +1,51 @@
+// /* Remove border from select element */
+.trajet-select {
+    border: none;
+    width: 60px !important; 
+    height: 20px !important;
+    text-align: center; 
+    padding: 0; 
+}
+
+// /* To ensure the background color is visible with transparency */
+// .status-delivered {
+//     background-color: rgba(28, 146, 28, ); /* Green with 50% transparency */
+//     color: white;
+// }
+
+// .status-missed {
+//     background-color: rgba(255, 255, 0); /* Yellow with 50% transparency */
+//     color: black;
+// }
+
+// .status-not-delivered {
+//     background-color: rgba(210, 30, 30); /* Red with 50% transparency */
+//     color: white;
+// }
+// button[ngbDropdownToggle] {
+//     background-image: none !important;
+//     padding-right: 10px; /* Optional: Adjust padding after removing the caret */
+//   }
+  
+/* Remove border from the accordion headers */
+
+.card {
+    border: none !important;
+  }
+  
+  .card-header {
+    border-bottom: none !important;
+  }
+  
+  .accordion-header {
+    border: none !important;
+    background-color: transparent !important;
+  }
+  
+  button[ngbAccordionButton] {
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+  
+  

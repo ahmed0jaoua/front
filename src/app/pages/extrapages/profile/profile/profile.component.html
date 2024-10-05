@@ -1,0 +1,356 @@
+<div class="profile-foreground position-relative mx-n4 mt-n4">
+    <div class="profile-wid-bg">
+        <img src="assets/images/profile-bg.jpg" alt="" class="profile-wid-img" />
+    </div>
+</div>
+<div class="pt-4 mb-4 mb-lg-3 pb-lg-4 profile-wrapper">
+    <div class="row g-4">
+        <div class="col-auto">
+            <div class="avatar-lg">
+                <img src="assets/images/users/user-dummy-img.jpg" alt="user-img" class="img-thumbnail rounded-circle" />
+            </div>
+        </div><!--end col-->
+        <div class="col">
+            <div class="p-2">
+                <h3 class="text-white mb-1">{{userData?.nom}} {{userData?.prenom}}</h3>
+                <p class="text-white text-opacity-75">{{userData?.role 
+               }}</p>
+                <div class="hstack text-white-50 gap-1">
+                    <div class="me-2"><i class="ri-map-pin-user-line me-1 text-white text-opacity-75 fs-16 align-middle"></i>{{userData.city}},
+                        {{userData?.adresse}}</div>
+                    <div><i class="ri-building-line me-1 text-white text-opacity-75 fs-16 align-middle"></i>Themesbrand</div>
+                </div>
+            </div>
+        </div><!--end col-->
+        <div class="col-12 col-lg-auto order-last order-lg-0">
+            <div class="row text text-white-50 text-center">
+              
+            </div>
+        </div><!--end col-->
+
+    </div><!--end row-->
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div>
+            <div class="d-flex profile-wrapper">
+                <!-- Nav tabs -->
+                <ul ngbNav #customNav="ngbNav" [activeId]="1" class="nav nav-pills animation-nav profile-nav gap-2 gap-lg-3 flex-grow-1" role="tablist">
+                    <li [ngbNavItem]="1" class="nav-item">
+                        <a ngbNavLink class="nav-link" data-bs-toggle="tab" role="tab">
+                            <i class="ri-airplay-fill d-inline-block d-md-none"></i> <span class="d-none d-md-inline-block">Overview</span>
+                        </a>
+                        <ng-template ngbNavContent>
+                            <div class="row">
+                                <div class="col-xxl-3">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5 class="card-title mb-5">Completer ton Profile</h5>
+                                            <div class="progress animated-progess custom-progress progress-label">
+                                                <div class="progress-bar bg-danger" role="progressbar" style="width: 30%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">
+                                                    <div class="label">30%</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5 class="card-title mb-3">Info</h5>
+                                            <div class="table-responsive">
+                                                <table class="table table-borderless mb-0">
+                                                    <tbody>
+                                                        <tr>
+                                                            <th class="ps-0" scope="row">nom</th>
+                                                            <td class="text-muted">{{userData?.nom}}
+                                                                </td>
+
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="ps-0" scope="row">prenom</th>
+                                                            <td class="text-muted">{{userData?.prenom}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="ps-0" scope="row">E-mail :</th>
+                                                            <td class="text-muted">{{userData?.email}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="ps-0" scope="row">Location :</th>
+                                                            <td class="text-muted">{{userData?.adresse}},
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="ps-0" scope="row">date d'inscription </th>
+                                                            <td class="text-muted">{{userData?.joining_date | date
+                                                              }}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div><!-- end card body -->
+                                    </div><!-- end card -->
+
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5 class="card-title mb-4">profile</h5>
+                                            <div class="d-flex flex-wrap gap-2">
+                                                @for(data of userData.portfolio;track $index){
+                                                <div>
+                                                    <a href="javascript:void(0);" class="avatar-xs d-block">
+                                                        <span class="avatar-title rounded-circle fs-16 bg-{{data.bg_color}} text-light">
+                                                            <i class="ri-{{data.logo}}-fill"></i>
+                                                        </span>
+                                                    </a>
+                                                </div>
+                                                }
+                                            </div>
+                                        </div><!-- end card body -->
+                                    </div><!-- end card -->
+
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5 class="card-title mb-4">Skills</h5>
+                                            <div class="d-flex flex-wrap gap-2 fs-15">
+                                                @for(skill of userData.skills;track $index){
+                                                <a href="javascript:void(0);" class="badge bg-primary-subtle text-primary">{{skill}}</a>
+                                                }
+                                            </div>
+                                        </div><!-- end card body -->
+                                    </div><!-- end card -->
+
+                               
+                                    
+                                </div><!--end col-->
+                                <div class="col-xxl-9">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5 class="card-title mb-3">About</h5>
+                                            <p>Siege par defaut</p>
+                                            <div class="row">
+                                                <div class="col-6 col-md-4">
+                                                    <div class="d-flex mt-4">
+                                                        <div class="flex-shrink-0 avatar-xs align-self-center me-3">
+                                                          
+                                                        </div>
+                                                        <div class="flex-grow-1 overflow-hidden">
+                                                            <p class="mb-1"> Nom :{{userData?.sitepardefaut?.nom}}</p>
+                                                            <h6 class="text-truncate mb-0">adresse : {{userData?.sitepardefaut?.adresse }}</h6>
+                                                        </div>
+                                                    </div>
+                                                </div><!--end col-->
+                                                <div class="col-6 col-md-4">
+                                                    <div class="d-flex mt-4">
+                                                        <div class="flex-shrink-0 avatar-xs align-self-center me-3">
+                                                           
+                                                        </div>
+                                                        <div class="flex-grow-1 overflow-hidden">
+                                                            <p class="mb-1">Telephone :</p>
+                                                            <a href="javascript:void(0);" class="fw-semibold">{{userData?.sitepardefaut?.telephone}}</a>
+                                                        </div>
+                                                    </div>
+                                                </div><!--end col-->
+                                            </div><!--end row-->
+                                        </div><!--end card-body-->
+                                    </div><!-- end card -->
+
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="card">
+                                               
+                                                <div class="card-body">
+                                                   
+                                                </div><!-- end card body -->
+                                            </div><!-- end card -->
+                                        </div><!-- end col -->
+                                    </div><!-- end row -->
+
+                                    <div class="card">
+                                     
+                                     
+                                    </div><!-- end card -->
+
+                                </div><!--end col-->
+                            </div><!--end row-->
+                        </ng-template>
+                    </li>
+                  
+                    <li [ngbNavItem]="3" class="nav-item">
+                        <a ngbNavLink class="nav-link" data-bs-toggle="tab" role="tab">
+                            <i class="ri-price-tag-line d-inline-block d-md-none"></i> <span class="d-none d-md-inline-block">Projects</span>
+                        </a>
+                        <ng-template ngbNavContent>
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        @for(data of projectList;track $index){
+                                        <div class="col-xxl-3 col-sm-6">
+                                            <div class="card profile-project-card profile-project-{{data.cardBorderColor}}">
+                                                <div class="card-body p-4">
+                                                    <div class="d-flex">
+                                                        <div class="flex-grow-1 text-muted overflow-hidden">
+                                                            <h5 class="fs-14 text-truncate"><a href="javascript:void(0);" class="text-body">{{data.title}}</a></h5>
+                                                            <p class="text-muted text-truncate mb-0">Last Update : <span class="fw-semibold text-body">{{data.updatedTime}}</span>
+                                                            </p>
+                                                        </div>
+                                                        <div class="flex-shrink-0 ms-2">
+                                                            <div class="badge bg-{{data.badgeClass}}-subtle text-{{data.badgeClass}} fs-10">
+                                                                {{data.badgeText}}</div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="d-flex mt-4">
+                                                        <div class="flex-grow-1">
+                                                            <div class="d-flex align-items-center gap-2">
+                                                                <div>
+                                                                    <h5 class="fs-12 text-muted mb-0">Members :</h5>
+                                                                </div>
+                                                                <div class="avatar-group">
+                                                                    @for(user of data.member;track $index){
+                                                                    <div class="avatar-group-item shadow">
+                                                                        @if(user.img){
+                                                                        <div class="avatar-xs" ngbTooltip="{{user.name}}" placement="top">
+                                                                            <img :src="{{user.img}}" alt="" class="rounded-circle img-fluid">
+                                                                        </div>
+                                                                        }@else{
+                                                                        <a href="javascript:void(0);" class="d-block" ngbTooltip="{{user.name}}" placement="top">
+                                                                            <div class="avatar-xs">
+                                                                                <div class="avatar-title rounded-circle {{user.variant}}">
+                                                                                    {{user.text}}
+                                                                                </div>
+                                                                            </div>
+                                                                        </a>
+                                                                        }
+                                                                    </div>
+                                                                    }
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- end card body -->
+                                            </div>
+                                            <!-- end card -->
+                                        </div><!--end col-->
+                                        }
+                                        <div class="col-lg-12">
+                                            <div class="mt-4">
+                                                <ul class="pagination pagination-separated justify-content-center mb-0">
+                                                    <li class="page-item disabled">
+                                                        <a href="javascript:void(0);" class="page-link"><i class="mdi mdi-chevron-left"></i></a>
+                                                    </li>
+                                                    <li class="page-item active">
+                                                        <a href="javascript:void(0);" class="page-link">1</a>
+                                                    </li>
+                                                    <li class="page-item">
+                                                        <a href="javascript:void(0);" class="page-link">2</a>
+                                                    </li>
+                                                    <li class="page-item">
+                                                        <a href="javascript:void(0);" class="page-link">3</a>
+                                                    </li>
+                                                    <li class="page-item">
+                                                        <a href="javascript:void(0);" class="page-link">4</a>
+                                                    </li>
+                                                    <li class="page-item">
+                                                        <a href="javascript:void(0);" class="page-link">5</a>
+                                                    </li>
+                                                    <li class="page-item">
+                                                        <a href="javascript:void(0);" class="page-link"><i class="mdi mdi-chevron-right"></i></a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div><!--end row-->
+                                </div><!--end card-body-->
+                            </div><!--end card-->
+                        </ng-template>
+                    </li>
+                    <li [ngbNavItem]="4" class="nav-item">
+                        <a ngbNavLink class="nav-link" data-bs-toggle="tab" role="tab">
+                            <i class="ri-folder-4-line d-inline-block d-md-none"></i> <span class="d-none d-md-inline-block">Documents</span>
+                        </a>
+                        <ng-template ngbNavContent>
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center mb-4">
+                                        <h5 class="card-title flex-grow-1 mb-0">Documents</h5>
+                                        <div class="flex-shrink-0">
+                                            <input class="form-control d-none" type="file" id="formFile">
+                                            <label for="formFile" class="btn btn-danger"><i class="ri-upload-2-fill me-1 align-bottom"></i> Upload File</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="table-responsive">
+                                                <table class="table table-borderless align-middle mb-0">
+                                                    <thead class="table-light">
+                                                        <tr>
+                                                            <th scope="col">File Name</th>
+                                                            <th scope="col">Type</th>
+                                                            <th scope="col">Size</th>
+                                                            <th scope="col">Upload Date</th>
+                                                            <th scope="col">Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @for(data of document;track $index){
+                                                        <tr>
+                                                            <td>
+                                                                <div class="d-flex align-items-center">
+                                                                    <div class="avatar-sm">
+                                                                        <div class="avatar-title bg-{{data.iconBackgroundClass}}-subtle text-{{data.iconBackgroundClass}} rounded fs-20">
+                                                                            <i class="{{data.icon}}"></i>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="ms-3 flex-grow-1">
+                                                                        <h6 class="fs-15 mb-0"><a href="javascript:void(0)">{{data.fileName}}</a>
+                                                                        </h6>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td>{{data.fileType}}</td>
+                                                            <td>{{data.fileSize}}</td>
+                                                            <td>{{data.updatedDate}}</td>
+                                                            <td>
+                                                                <div class="dropdown" ngbDropdown>
+                                                                    <a href="javascript:void(0);" class="btn btn-light btn-md arrow-none" id="dropdownMenuLink15" data-bs-toggle="dropdown" aria-expanded="true" ngbDropdownToggle>
+                                                                        <i class="ri-equalizer-fill"></i>
+                                                                    </a>
+                                                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink15" ngbDropdownMenu>
+                                                                        <li><a class="dropdown-item" href="javascript:void(0);"><i class="ri-eye-fill me-2 align-middle text-muted"></i>View</a>
+                                                                        </li>
+                                                                        <li><a class="dropdown-item" href="javascript:void(0);"><i class="ri-download-2-fill me-2 align-middle text-muted"></i>Download</a>
+                                                                        </li>
+                                                                        <li class="dropdown-divider"></li>
+                                                                        <li><a class="dropdown-item" href="javascript:void(0);"><i class="ri-delete-bin-5-line me-2 align-middle text-muted"></i>Delete</a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="text-center mt-3">
+                                                <a href="javascript:void(0);" class="text-success "><i class="mdi mdi-loading mdi-spin fs-20 align-middle me-2"></i>
+                                                    Load more </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </li>
+                </ul>
+                <div class="flex-shrink-0">
+                    <a routerLink="/pages/profile-setting" class="btn btn-success"><i class="ri-edit-box-line align-bottom"></i> Edit Profile</a>
+                </div>
+            </div>
+            <!-- Tab panes -->
+            <div class="tab-content pt-4 text-muted">
+                <div [ngbNavOutlet]="customNav"></div>
+            </div><!--end tab-content-->
+        </div>
+    </div><!--end col-->
+</div><!--end row-->

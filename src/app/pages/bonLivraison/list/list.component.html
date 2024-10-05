@@ -1,0 +1,455 @@
+<!-- Start Breadcrumbs -->
+<app-breadcrumbs title="bon de livraison " [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<!-- End Breadcrumbs -->
+
+<div class="row">
+
+    <div class="col-xl-3 col-md-6">
+        <!-- card -->
+        <div class="card card-animate">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="flex-grow-1">
+                        <p class="text-uppercase fw-medium text-muted mb-0">total bon livraison</p>
+                    </div>
+                    <div class="flex-shrink-0">
+
+                    </div>
+                </div>
+                <div class="d-flex align-items-end justify-content-between mt-4">
+                    <div>
+                        <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span
+                                class="counter-value">{{static?.countLivraisontotal?.count ??'N/A' }}</span></h4>
+                        <!-- <span class="badge bg-warning me-1">1,958</span> <span class="text-muted"></span> -->
+                    </div>
+                    <div class="avatar-sm flex-shrink-0">
+                        <span class="avatar-title bg-info rounded fs-3">
+                            <i-feather name="package" class="text-white icon-dual-success feather-icon-align">
+                            </i-feather>
+                        </span>
+                    </div>
+                </div>
+            </div><!-- end card body -->
+        </div><!-- end card -->
+    </div><!-- end col -->
+
+    <div class="col-xl-3 col-md-6">
+        <!-- card -->
+        <div class="card card-animate">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="flex-grow-1">
+                        <p class="text-uppercase fw-medium text-muted mb-0">nombre du vehicule disponible</p>
+                    </div>
+                </div>
+                <div class="d-flex align-items-end justify-content-between mt-4">
+                    <div>
+                        <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value"
+                                [countUp]="static?.countVehicules"></span></h4>
+                        <!-- <span class="badge bg-warning me-1">1,958</span> <span class="text-muted"></span>  name="check-square" -->
+
+                    </div>
+                    <div class="avatar-sm flex-shrink-0">
+                        <span class="avatar-title bg-warning rounded fs-3">
+                            <i-feather name="truck" class="text-white icon-dual-success feather-icon-align">
+                            </i-feather>
+                        </span>
+                    </div>
+                </div>
+            </div><!-- end card body -->
+        </div><!-- end card -->
+    </div><!-- end col -->
+
+    <div class="col-xl-3 col-md-6">
+        <!-- card -->
+        <div class="card card-animate">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="flex-grow-1">
+                        <p class="text-uppercase fw-medium text-muted mb-0">nombre du chauffeur disponible</p>
+                    </div>
+
+                </div>
+                <div class="d-flex align-items-end justify-content-between mt-4">
+                    <div>
+                        <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span
+                                class="counter-value">{{static?.countChauffeurs }}</span></h4>
+                        <!-- <span class="badge bg-warning me-1">1,958</span> <span class="text-muted"></span> -->
+                    </div>
+                    <div class="avatar-sm flex-shrink-0">
+                        <span class="avatar-title bg-green rounded fs-3">
+                            <i-feather name="clock" class="text-white icon-dual-white feather-icon-align">
+                            </i-feather>
+                        </span>
+                    </div>
+
+                </div>
+            </div><!-- end card body -->
+        </div><!-- end card -->
+    </div><!-- end col -->
+
+    <div class="col-xl-3 col-md-6">
+        <!-- card -->
+        <div class="card card-animate">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="flex-grow-1">
+                        <p class="text-uppercase fw-medium text-muted mb-0">Retour Bon de livraison</p>
+                    </div>
+
+                </div>
+                <div class="d-flex align-items-end justify-content-between mt-4">
+                    <div>
+                        <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span
+                                class="counter-value">{{static?.countChauffeurs }}</span></h4>
+                        <!-- <span class="badge bg-warning me-1">1,958</span> <span class="text-muted"></span> -->
+                    </div>
+                    <div class="avatar-sm flex-shrink-0">
+                        <span class="avatar-title bg-danger rounded fs-3">
+                            <i-feather name="x-octagon" class="text-white icon-dual-success feather-icon-align">
+                            </i-feather>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card" id="invoiceList">
+            <div class="card-header border-0">
+                <div class="d-flex align-items-center">
+                    <h5 class="card-title mb-0 flex-grow-1">Livraisons</h5>
+                    <div class="flex-shrink-0 d-flex gap-2 flex-wrap">
+
+                        <a routerLink="/bon/create" class="btn btn-success"><i
+                                class="ri-add-line align-bottom me-1"></i>Creation Bon de livraison</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body bg-light-subtle border border-dashed border-start-0 border-end-0">
+                <div class="row g-3">
+                    <div class="col-xxl-5 col-sm-12">
+                        <div class="search-box">
+                            <input type="text" name="searchTerm" class="form-control search bg-light border-light"
+                                placeholder="Rechercher BL, expideteur,destinataire, agent..." [(ngModel)]="searchTerm"
+                                (ngModelChange)="performSearch()">
+                            <i class="ri-search-line search-icon"></i>
+                        </div>
+                    </div>
+                    <div class="col-xxl-2 col-sm-12">
+                        <div>
+                            <input class="form-control flatpickr-input" type="text" mwlFlatpickr [altInput]="true"
+                                style="width: 400px !important;" [convertModelValue]="true" placeholder="Select date"
+                                id="isDate" mode="range" [(ngModel)]="date" (ngModelChange)="onDateChange()">
+                        </div>
+                    </div>
+                    <div class="col-xxl-2 col-sm-12"> <!-- Adds right margin -->
+                        <select class="form-select" aria-label="Default select example" id="pageSizeSelect"
+                            placeholder="Etat livraison" [(ngModel)]="status" (change)="statusFilter()">
+                            <option value="">auccun </option>
+                            <option value="0">créé</option>
+                            <option value="1">En Cours</option>
+                            <option value="2">Livré</option>
+                            <option value="3">Cloturé</option>
+
+                        </select>
+                    </div>
+
+
+                </div>
+                <!--end row-->
+            </div>
+            <div class="card-body">
+                <div>
+
+
+                    <div class="table-responsive table-card">
+                        <table class="table align-middle table-nowrap  table-hover table-nowrap  table-bordered "
+                            id="invoiceTable">
+                            <thead class="text-muted">
+                                <tr>
+
+                                    <th class="sort" (click)="onSort('reference')">N°BL</th>
+                                    <th class="sort" (click)="onSort('dateCreation')">Date Liv </th>
+                                    <th class="sort" (click)="onSort('utilisateur.prenom')">Agent</th>
+                                    <th class="sort" (click)="onSort('utilisateur.prenom')">Agent Rammassage</th>
+                                    <th class="sort" (click)="onSort('expediteur')">Expéditeur</th>
+                                    <th class="sort" (click)="onSort('adresseExpediteur')"> Adr Expéditeur</th>
+                                    <th class="sort" (click)="onSort('Destinataire')">Destinataire</th>
+                                    <th class="sort" (click)="onSort('adresseDestinataire')">Adr Destinataire </th>
+                                    <th class="sort" (click)="onSort('totalCR')">CR</th>
+                                    <th class="sort" (click)="onSort('totalfrais')">Frais livraison</th>
+                                    <th class="sort" (click)="onSort('typeLibelle')">Type paiement </th>
+                                    <th class="sort" (click)="onSort('modeLibelle')">Mode paiement </th>
+                                    <th class="sort" (click)="onSort('quantite')">Quantite</th>
+                                    <th class="sort" (click)="onSort('quantite')"> paiement</th>
+                                    <th class="sort" (click)="onSort('statut')">statut
+                                    </th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody class="list form-check-all" id="invoice-list-data">
+                                @for(data of bons;track $index){
+                                <tr id="i_{{data.id}}">
+
+                                    <td><a [routerLink]="['/bon/bondetails', data.id]">
+                                            <ngb-highlight [result]="data.reference" [term]="searchTerm">
+                                            </ngb-highlight>
+                                        </a>
+                                    </td>
+                                    <td><a [routerLink]="['/bon/bondetails', data.id]">
+                                            <ngb-highlight [result]="(data.dateLivraison | date: 'yyyy-MM-dd')  ??'N/A'"
+                                                [term]="searchTerm">
+                                            </ngb-highlight>
+                                        </a></td>
+                                    <td class="customer_name">
+                                        <ngb-highlight [result]="data?.utilisateur ?? 'N/A' " [term]="searchTerm">
+                                        </ngb-highlight>
+                                    </td>
+                                    <td class="customer_name">
+                                        <ngb-highlight
+                                            [result]="data?.ChauffeurRamssageNom ?? data?.utilisateurRamassageNom  ?? 'N/A' "
+                                            [term]="searchTerm">
+                                        </ngb-highlight>
+                                    </td>
+                                    <td>
+                                        <ngb-highlight [result]="data?.expediteur ?? 'N/A'" [term]="searchTerm">
+                                        </ngb-highlight>
+                                    </td>
+                                    <td>
+                                        <ngb-highlight [result]="data?.adresseExpediteur ?? 'N/A' " [term]="searchTerm">
+                                        </ngb-highlight>
+                                    </td>
+                                    <td>
+                                        <ngb-highlight [result]="data?.Destinataire?? 'N/A' " [term]="searchTerm">
+                                        </ngb-highlight>
+                                    </td>
+                                    <td>
+                                        <ngb-highlight [result]="data?.adresseDestinataire  ?? 'N/A'"
+                                            [term]="searchTerm">
+                                        </ngb-highlight>
+                                    </td>
+                                    <td>
+                                        <ng-container *ngIf="data?.totalCR > 0; else noData">
+                                            <ngb-highlight [result]="data.totalCR | number:'1.3-3'" [term]="searchTerm"
+                                                class="text-end text-danger">
+                                            </ngb-highlight>
+                                        </ng-container>
+                                        <ng-template #noData>
+                                            <span class="text-end text-muted"></span>
+                                        </ng-template>
+                                    </td>
+                                    <td>
+
+                                        <ngb-highlight [result]="data?.totalfrais | number:'1.3-3'" [term]="searchTerm"
+                                            class="text-end">
+                                        </ngb-highlight>
+
+                                    </td>
+                                    <td>
+                                        <ngb-highlight [result]="data?.typeLibelle ?? 'N/A' " [term]="searchTerm"
+                                            class="text-end">
+                                        </ngb-highlight>
+                                    </td>
+                                    <td>
+                                        <ngb-highlight [result]="data?.modeLibelle ?? 'N/A' " [term]="searchTerm"
+                                            class="text-end">
+                                        </ngb-highlight>
+                                    </td>
+                                    <td>
+                                        <ngb-highlight [result]="data?.quantite ?? 'N/A' " [term]="searchTerm"
+                                            class="text-end">
+                                        </ngb-highlight>
+                                    </td>
+
+                                    <td class="statut" id="lj_{{data?.statut}}">
+                                        <h5>
+                                            <span [ngClass]="getBadgeClassesP(data.statusPaiement)">
+                                                {{ getStatusTextP(data.statusPaiement) }}
+                                            </span>
+                                        </h5>
+                                    </td>
+                                    <td class="statut" id="lj_{{data?.statut}}">
+                                        <h5>
+                                            <span [ngClass]="getBadgeClasses(data.statut)">
+                                                {{ getStatusText(data.statut) }}
+                                            </span>
+                                        </h5>
+                                    </td>
+
+                                    <td class="centertd">
+                                        <div class="d-flex gap-3  mr-10 centertd">
+                                            <div class="edit">
+                                                <a href="javascript:void(0);" class="link-danger fs-15"
+                                                    (click)="openModal(paiement,data.id,data?.totalfrais)">
+                                                    <i class=" ri-bank-card-fill"></i>
+                                                </a>
+                                            </div>
+                                            <div class="view">
+                                                <a href="javascript:void(0);" class="link-warning fs-15"
+                                                    [routerLink]="['/bon/bondetails', data.id]">
+                                                    <i class="ri-eye-fill"></i>
+                                                </a>
+                                            </div>
+                                            <div class="edit">
+
+                                                <a href="javascript:void(0);" class="link-success fs-15"
+                                                    [routerLink]="['/bon/modifier', data.id]">
+                                                    <i class="ri-edit-2-line"></i>
+                                                </a>
+                                            </div>
+
+                                            <div class="remove">
+
+                                                <a href="javascript:void(0);" class="link-info fs-15"
+                                                    [routerLink]="['/bon/status', data.id]">
+                                                    <i class="ri-download-2-line"></i>
+                                                </a>
+                                            </div>
+
+                                        </div>
+                                    </td>
+                                </tr>
+                                }
+                            </tbody>
+                        </table>
+
+                    </div>
+                    <div class="row   mt-3">
+                        <!-- Pagination -->
+                        <div class="col col-sm-12">
+                            <div class="d-flex  ">
+
+                                <!-- Select on the left with padding/margin for spacing -->
+                                <div class="me-8"> <!-- Adds right margin -->
+                                    <select class="form-select" aria-label="Default select example" id="pageSizeSelect"
+                                        [(ngModel)]="service.pageSize" (change)="changePage()">
+                                        <option value="5">5</option>
+                                        <option value="10">10</option>
+                                        <option value="20">20</option>
+                                        <option value="50">50</option>
+                                        <option value="100">100</option>
+                                    </select>
+                                </div>
+
+                                <!-- Pagination on the far right -->
+                                <div class="ms-auto">
+                                    <ngb-pagination [collectionSize]="allinvoices?.length" [(page)]="service.page"
+                                        [pageSize]="service.pageSize" (pageChange)="changePage()">
+                                    </ngb-pagination>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Pagination -->
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!--end col-->
+</div>
+<!--end row-->
+
+<!-- removeItemModal -->
+<ng-template #deleteModel let-modal>
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="btn-close"
+                (click)="modal.dismiss('Cross click')"></button>
+        </div>
+        <div class="modal-body">
+            <div class="mt-2 text-center">
+                <lord-icon src="https://cdn.lordicon.com/gsqxdxog.json" trigger="loop"
+                    colors="primary:#405189,secondary:#f06548" style="width:90px;height:90px"></lord-icon>
+                <div class="mt-4 pt-2 fs-15 mx-4 mx-sm-5">
+                    <h4>You are about to delete a contact ?</h4>
+                    <p class="text-muted mx-4 mb-0">Deleting your contact will remove all of your information from our
+                        database.</p>
+                </div>
+            </div>
+            <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
+                <button class="btn btn-link link-success fw-medium text-decoration-none" data-bs-dismiss="modal"
+                    (click)="modal.close('Close click')" id="deleteRecord-close"><i
+                        class="ri-close-line me-1 align-middle"></i> Close</button>
+                <button type="button" class="btn w-sm btn-danger " id="delete-product" (click)="deleteData(deleteId)"
+                    (click)="modal.close('Close click')">Yes, Delete It!</button>
+            </div>
+        </div>
+    </div><!-- /.modal-content -->
+</ng-template>
+<ng-template #paiement role="document" let-modal>
+    <div class="modal-header bg-warning-subtle p-3">
+        <h5 class="modal-title" id="exampleModalLabel">{{ isEditMode ? 'Modifier' : 'Ajouter' }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"
+            (click)="closeModal()"></button>
+    </div>
+    <form class="tablelist-form" autocomplete="off" (ngSubmit)="ajoutpaiement()">
+        <div class="modal-body">
+            <input type="hidden" name="id" value="" />
+            <div class="row g-2">
+
+
+                <div class="mb-3">
+                    <label for="phone-field" class="form-label">Mode de paiement </label>
+                    <ng-select [items]="listeMode" bindLabel="libelle" [(ngModel)]="selectedMode" name="selectedMode">
+                        <ng-template ng-optgroup-tmp let-item="item">
+                            {{item.libelle || 'auccun mode'}}
+                        </ng-template>
+                    </ng-select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="montant-field" class="form-label">Montant</label>
+                    <input type="number" id="montant-field" class="form-control" placeholder="Entrer montant"
+                        [(ngModel)]="montant" name="montant" (change)="validateMontant()" required />
+                    <div class="invalid-feedback">
+                        Veuillez entrer un montant
+                    </div>
+                    <div *ngIf="montantInvalid" class="invalid-feedback d-block">
+                        Le montant ne doit pas dépasser {{ totalfrais - totalPaiement }} TND
+                    </div>
+
+                </div>
+
+                <div class="mb-3">
+                    <label for="phone-field" class="form-label">siege </label>
+                    <ng-select [items]="listSiges" bindLabel="nom" [(ngModel)]="selectedsiege" name="selectedsiege">
+                        <ng-template ng-optgroup-tmp let-item="item">
+                            {{item.nom || 'auccun mode'}}
+                        </ng-template>
+                    </ng-select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="phone-field" class="form-label">date du Paiement</label>
+                    <input type="date" id="phone-field" class="form-control" placeholder="Enter date du Paiement."
+                        [(ngModel)]="datep " name="datep" />
+                    <div class="invalid-feedback">Entrer date du Paiement</div>
+
+                </div>
+
+
+
+
+
+
+            </div>
+        </div>
+        <div class="modal-footer">
+            <div class="hstack gap-2 justify-content-end">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal"
+                    (click)="closeModal()">Fermer</button>
+                <button type="submit" class="btn btn-success">{{ isEditMode ? 'Modifier' : 'Ajouter' }}
+                    paiement
+
+                </button>
+            </div>
+        </div>
+    </form>
+</ng-template>

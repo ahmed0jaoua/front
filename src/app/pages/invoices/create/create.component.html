@@ -1,0 +1,184 @@
+<!-- Start Breadcrumbs -->
+<app-breadcrumbs title="Creation Bon reception" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<!-- End Breadcrumbs -->
+
+<div class="row justify-content-center">
+  <div class="col-xxl-9">
+    <div class="card">
+      <form (ngSubmit)="saveUser()" id="invoice_form">
+        <div class="card-body border-bottom border-bottom-dashed p-4">
+          <!--end row-->
+        </div>
+        <div class="card-body p-4">
+          <div class="row g-3">
+            <div class="col-lg-3 col-sm-6">
+              <label for="invoicenoInput">code bon reception</label>
+              <input type="text" class="form-control bg-light border-0" id="codeco" placeholder="Invoice No"  name="codeco"  [(ngModel)]="codeco" />
+            </div>
+            <!--end col-->
+            <div class="col-lg-3 col-sm-6">
+              <div>
+                <label for="date-field">Date</label>
+                <input type="text" class="form-control bg-light border-0" id="date-field" data-provider="flatpickr" data-time="true" placeholder="Select Date-time" />
+              </div>
+            </div>
+            <!--end col-->
+            <div class="col-lg-3 col-sm-6">
+              <label for="choices-payment-status">etat du paiement</label>
+              <div class="input-light">
+                <select class="form-control bg-light border-0" data-choices data-choices-removeItem data-choices-search-false id="choices-payment-status" [(ngModel)]="paymentStatus" name="paymentStatus" required>
+                  <option value="">Select Payment Status</option>
+                  <option value="Paid">Paid</option>
+                  <option value="Unpaid">Unpaid</option>
+                  <option value="Refund">Refund</option>
+                </select>
+              </div>
+            </div>
+            <!--end col-->
+            
+            <!--end col-->
+          </div>
+          <!--end row-->
+        </div>
+        <div class="card-body p-4 border-top border-top-dashed">
+          <div class="row">
+            <div class="col-lg-4 col-sm-6">
+              <div>
+                <label for="billingName" class="text-muted text-uppercase fw-semibold">information client</label>
+              </div>
+              <div class="mb-2">
+                <input type="text" class="form-control bg-light border-0" id="billingName" placeholder="nom" [(ngModel)]="nom1" name="nom1" (ngModelChange)="onNomChange($event)" [ngClass]="{ 'is-invalid': submitted && !nom1 }" />
+                <div *ngIf="filteredClients.length > 0" class="dropdown-menu show">
+                  <button *ngFor="let client of filteredClients" class="dropdown-item" (click)="selectClient(client)">{{ client.nom }}</button>
+                </div>
+                <div class="invalid-feedback">
+                  Please enter a name
+                </div>
+              </div>
+              <div class="mb-2">
+                <textarea class="form-control bg-light border-0" id="billingAddress" rows="3" placeholder="Adresse" [(ngModel)]="adresse" name="adresse" [ngClass]="{ 'is-invalid': submitted && !adresse }"></textarea>
+                <div class="invalid-feedback">
+                  Please enter an address
+                </div>
+              </div>
+              <div class="mb-2">
+                <input type="text" class="form-control bg-light border-0" data-plugin="cleave-phone" id="billingPhoneno" placeholder="phone" [(ngModel)]="phone" name="phone" [ngClass]="{ 'is-invalid': submitted && !phone }" />
+                <div class="invalid-feedback">
+                  Please enter a phone number
+                </div>
+              </div>
+              <div class="mb-3">
+                <input type="text" class="form-control bg-light border-0" id="billingTaxno" placeholder="activite" [(ngModel)]="activite" name="activite" [ngClass]="{ 'is-invalid': submitted && !activite }" />
+                <div class="invalid-feedback">
+                  Please enter an activity
+                </div>
+              </div>
+            </div>
+            <!--end col-->
+            <div class="col-sm-6 ms-auto">
+              <div class="row">
+                <div class="col-lg-8">
+                  <br />
+                  <div class="mb-2">
+                    <input type="text" class="form-control bg-light border-0" id="shippingName" placeholder="code" [(ngModel)]="codec" name="codec" [ngClass]="{ 'is-invalid': submitted && !codec }" />
+                    <div class="invalid-feedback">
+                      Please enter a code
+                    </div>
+                  </div>
+                  <div class="mb-2">
+                    <textarea class="form-control bg-light border-0" id="shippingAddress" rows="3" placeholder="raison social" [(ngModel)]="raisonSocial" name="raisonSocial" [ngClass]="{ 'is-invalid': submitted && !raisonSocial }"></textarea>
+                    <div class="invalid-feedback">
+                      Please enter a reason
+                    </div>
+                  </div>
+                  <div class="mb-2">
+                    <input type="text" class="form-control bg-light border-0" data-plugin="cleave-phone" id="shippingPhoneno" placeholder="matricule fiscale" [(ngModel)]="matriculeFiscale" name="matriculeFiscale" [ngClass]="{ 'is-invalid': submitted && !matriculeFiscale }" />
+                    <div class="invalid-feedback">
+                      Please enter a fiscal number
+                    </div>
+                  </div>
+                  <div>
+                    <input type="text" class="form-control bg-light border-0" id="shippingTaxno" placeholder="email" [(ngModel)]="email" name="email" [ngClass]="{ 'is-invalid': submitted && !email }" />
+                    <div class="invalid-feedback">
+                      Please enter an email
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--end col-->
+          </div>
+          <!--end row-->
+        </div>
+        <div class="card-body p-4">
+          <div class="table-responsive">
+            <table class="invoice-table table table-borderless table-nowrap mb-0">
+              <thead class="align-middle">
+                <tr class="table-active">
+                  <th scope="col" style="width: 50px;">#</th>
+                  <th scope="col">Article</th>
+                  <th scope="col" style="width: 120px;">caracteristique</th>
+                  <th scope="col" style="width: 150px;">destinateur</th>
+                  <th scope="col" style="width: 105px;">action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of items; let i = index">
+                  <th scope="row" class="product-id">{{ i + 1 }}</th>
+                  <td class="text-start">
+                    <div class="mb-2">
+                      <input type="text" class="form-control bg-light border-0" id="productName" placeholder="code article" [(ngModel)]="item.code" name="code{{ i }}" [ngClass]="{ 'is-invalid': submitted && !item.code }" />
+                      <div class="invalid-feedback">
+                        Please enter a code
+                      </div>
+                    </div>
+                    <textarea class="form-control bg-light border-0" id="productDetails" rows="2" placeholder="nom article" [(ngModel)]="item.nom" name="nom{{ i }}"></textarea>
+                  </td>
+                  <td>
+                    <div style="margin-bottom: 10px;">
+                      <input type="text" class="form-control bg-light border-0 product-line-price" placeholder="dimensions" [(ngModel)]="item.Dimensions" name="Dimensions{{ i }}" />
+                    </div>
+                    <div style="margin-bottom: 10px;">
+                      <input type="text" class="form-control bg-light border-0 product-line-price" placeholder="poids" [(ngModel)]="item.poids" name="poids{{ i }}" />
+                    </div>
+                    <div>
+                      <input type="text" class="form-control bg-light border-0 product-line-price" placeholder="contenu" [(ngModel)]="item.Contenu" name="Contenu{{ i }}" />
+                    </div>
+                  </td>
+                  <td class="text-end">
+                    <div style="margin-bottom: 10px;">
+                      <input type="text" class="form-control bg-light border-0 product-line-price" placeholder="nom" [(ngModel)]="item.receiver.name" name="name{{ i }}" />
+                    </div>
+                    <div style="margin-bottom: 10px;">
+                      <input type="text" class="form-control bg-light border-0 product-line-price" placeholder="adresse" [(ngModel)]="item.receiver.address" name="address{{ i }}" />
+                    </div>
+                    <div>
+                      <input type="text" class="form-control bg-light border-0 product-line-price" placeholder="num tel" [(ngModel)]="item.receiver.contact" name="contact{{ i }}" />
+                    </div>
+                  </td>
+                  <td class="product-removal">
+                    <a href="javascript:void(0)" class="btn btn-success" (click)="removeItem(i)">Delete</a>
+                  </td>
+                </tr>
+              </tbody>
+              <tbody>
+                <tr>
+                  <td colspan="9">
+                    <a href="javascript:void(0);" class="btn btn-soft-secondary fw-medium" (click)="addItem()">
+                      <i class="ri-add-fill me-1 align-bottom"></i> Ajouter article
+                    </a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <!--end table-->
+          </div>
+        </div>
+        <!--end row-->
+        <div class="card-footer">
+          <button type="submit" class="btn btn-primary">Save Articles</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

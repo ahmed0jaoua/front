@@ -1,0 +1,840 @@
+<div class="position-relative mx-n4 mt-n4">
+    <div class="profile-wid-bg profile-setting-img">
+        <img src="assets/images/profile-bg.jpg" class="profile-wid-img" alt="">
+        <div class="overlay-content">
+            <div class="text-end p-3">
+                <!-- <div class="p-0 ms-auto rounded-circle profile-photo-edit">
+                    <input id="profile-foreground-img-file-input" type="file" class="profile-foreground-img-file-input">
+                    <label for="profile-foreground-img-file-input" class="profile-photo-edit btn btn-light">
+                        <i class="ri-image-edit-line align-bottom me-1"></i> Change Cover
+                    </label>
+                </div> -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xxl-3">
+        <div class="card mt-n5">
+            <div class="card-body p-4">
+                <div class="text-center">
+                    <div class="profile-user position-relative d-inline-block mx-auto  mb-4">
+                        <img *ngIf="imgurl" [src]="backurl + imgurl || 'assets/images/users/user-dummy-img.jpg' " class="rounded-circle avatar-xl img-thumbnail user-profile-image shadow"
+                            alt="user-profile-image">
+                            <img *ngIf="!imgurl" [src]="'assets/images/users/user-dummy-img.jpg' " class="rounded-circle avatar-xl img-thumbnail user-profile-image shadow"
+                            alt="user-profile-image">
+                        <div class="avatar-xs p-0 rounded-circle profile-photo-edit">
+                            <input id="profile-img-file-input" type="file" (change)="onFileSelectedPhoto($event)" class="profile-img-file-input">
+                            <label for="profile-img-file-input" class="profile-photo-edit avatar-xs">
+                                <span class="avatar-title rounded-circle bg-light text-body shadow">
+                                    <i class="ri-camera-fill"></i>
+                                </span>
+                            </label>
+                        </div>
+                            <!-- <div class="mb-3">
+                                <label for="file-field" class="form-label">file</label>
+                                <input type="file" class="form-control"  placeholder="Enter file." />
+                            
+                            </div> -->
+                    </div>
+
+                </div>
+            </div>
+        </div><!--end card-->
+        <!-- <div class="card">
+            <div class="card-body">
+                <div class="d-flex align-items-center mb-5">
+                    <div class="flex-grow-1">
+                        <h5 class="card-title mb-0">Complete Your Profile</h5>
+                    </div>
+                    <div class="flex-shrink-0">
+                        <a href="javascript:void(0);" class="badge bg-light text-primary fs-12"><i
+                                class="ri-edit-box-line align-bottom me-1"></i> Edit</a>
+                    </div>
+                </div>
+                <div class="progress animated-progess custom-progress progress-label">
+                    <div class="progress-bar bg-danger" role="progressbar" style="width: 30%" aria-valuenow="30"
+                        aria-valuemin="0" aria-valuemax="100">
+                        <div class="label">30%</div>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+        <!-- <div class="card">
+            <div class="card-body">
+                <div class="d-flex align-items-center mb-4">
+                    <div class="flex-grow-1">
+                        <h5 class="card-title mb-0">Portfolio</h5>
+                    </div>
+                    <div class="flex-shrink-0">
+                        <a href="javascript:void(0);" class="badge bg-light text-primary fs-12"><i
+                                class="ri-add-fill align-bottom me-1"></i> Add</a>
+                    </div>
+                </div>
+                @for(data of userData.portfolio;track $index){
+                <div class="mb-3 d-flex">
+                    <div class="avatar-xs d-block flex-shrink-0 me-3">
+                        <span class="avatar-title rounded-circle fs-16 bg-{{data.bg_color}} text-light">
+                            <i class="ri-{{data.logo}}-fill"></i>
+                        </span>
+                    </div>
+                    <input type="email" class="form-control" id="gitUsername" placeholder="Username"
+                        value="{{data.link}}">
+                </div>
+                }
+            </div>
+        </div> -->
+        <!--end card-->
+    </div>
+    <div class="col-xxl-9">
+        <div class="card mt-xxl-n5">
+            <div class="card-header">
+                <ul ngbNav #customNav="ngbNav" [activeId]="1"
+                    class="nav nav-tabs-custom rounded card-header-tabs border-bottom-0" role="tablist">
+                    <li [ngbNavItem]="1" class="nav-item">
+                        <a ngbNavLink class="nav-link" data-bs-toggle="tab" role="tab">
+                            <i class="fas fa-home"></i>
+                        Informations personnelles
+                        </a>
+                        <ng-template ngbNavContent>
+                            <form (ngSubmit)="saveListJs()" [formGroup]="listJsForm">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                            <label for="nom-field" class="form-label">Nom</label>
+                                            <input type="text" id="nom-field" class="form-control"
+                                                placeholder="Entrer Nom" required formControlName="nom" />
+                                            <div class="invalid-feedback">Veuillez entrer le Nom</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                            <label for="prenom-field" class="form-label">Prénom</label>
+                                            <input type="text" id="prenom-field" class="form-control"
+                                                placeholder="Entrer Prénom" required formControlName="prenom" />
+                                            <div class="invalid-feedback">Veuillez entrer Prénom.</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                            <label for="prenom-field" class="form-label">code</label>
+                                            <input type="text" id="prenom-field" class="form-control"
+                                                placeholder="Entrer Prénom" required formControlName="code" />
+                                            <div class="invalid-feedback">Veuillez entrer Prénom.</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-6">
+
+                                        <div class="mb-3">
+                                            <label for="telephone-field" class="form-label">Télephone</label>
+                                            <input type="text" id="telephone-field" class="form-control" placeholder="Entrer num Télephone." required
+                                                formControlName="telephone" />
+                                            <div class="invalid-feedback">Veuillez entrer numéro téléphone.</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+
+                                            <label for="adresse-field" class="form-label">Adresse</label>
+                                            <input type="text" id="adresse-field" class="form-control"
+                                                placeholder="Entrer Adresse." formControlName="adresse" />
+                                            <div class="invalid-feedback">Veuillez entrer adresse-field.</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                    
+                                        <div class="mb-3">
+                                            <label for="telephone-field" class="form-label">Numero carte CIN</label>
+                                            <input type="text" id="telephone-field" class="form-control" placeholder="Entrer num arte CIN." required
+                                                formControlName="numCin" />
+                                            <div class="invalid-feedback">Veuillez entrer numéro carte CIN.</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                    
+                                            <label for="adresse-field" class="form-label">Numero permis</label>
+                                            <input type="text" id="adresse-field" class="form-control" placeholder="Entrer Numero permis."
+                                                formControlName="numPermis" />
+                                            <div class="invalid-feedback">Veuillez entrer Numero permis.</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                    
+                                            <label for="adresse-field" class="form-label">Date naissance</label>
+                                            <input type="date" id="adresse-field" class="form-control" placeholder="Entrer Date naissance."
+                                                formControlName="dateNaissance" />
+                                            <div class="invalid-feedback">Veuillez entrer Date naissance.</div>
+                                        </div>
+                                    </div>
+                                     <div class="col-lg-6">
+                                        <div class="mb-3">
+                                    
+                                            <label for="adresse-field" class="form-label">Date embauche </label>
+                                            <input type="date" id="adresse-field" class="form-control" placeholder="Entrer Date embauche ."
+                                                formControlName="dateEmbauche" />
+                                            <div class="invalid-feedback">Veuillez entrer Date embauche.</div>
+                                        </div>
+                                    </div>
+                                     <div class="col-lg-6">
+                                        <div class="mb-3">
+                                    
+                                            <label for="adresse-field" class="form-label">Date validite permis </label>
+                                            <input type="date" id="adresse-field" class="form-control" placeholder="Entrer Date validite permis ."
+                                                formControlName="dateValiditePermis" />
+                                            <div class="invalid-feedback">Veuillez entrer Date validite permis .</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-12">
+                                        <div class="mb-3">
+                                            <label for="statut-field" class="form-label">Status</label>
+                                            <select class="form-control" data-trigger name="statut-field"
+                                                id="statut-field" formControlName="statut" required>
+                                                <option value="1"> Disponible</option>
+                                                <option value="2">En Livraison</option>
+                                                <option value="3">Non Disponible</option>
+
+                                            </select>
+
+                                            <div class="invalid-feedback" align="left">
+
+                                                <div>statut is required</div>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <!--       <div class="col-lg-6">
+                                        <div class="mb-3">
+                                            <label for="matriculeFiscale-field" class="form-label">Matricule
+                                                Fiscale</label>
+                                            <input type="text" id="matriculeFiscale-field" class="form-control"
+                                                placeholder="Enter Matricule Fiscale."
+                                                formControlName="matriculeFiscale"
+                                                [ngClass]="{ 'is-invalid': submitted && customerForm.get('matriculeFiscale')?.invalid }" />
+                                            <div *ngIf="submitted && customerForm.get('matriculeFiscale')?.errors?.['required']"
+                                                class="invalid-feedback">
+                                                Entrer matricule fiscale.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                            <label for="activite-field" class="form-label">Activité</label>
+                                            <input type="text" id="activite-field" class="form-control"
+                                                placeholder="Enter Activité." formControlName="activite"
+                                                [ngClass]="{ 'is-invalid': submitted && customerForm.get('activite')?.invalid }" />
+                                            <div *ngIf="submitted && customerForm.get('activite')?.errors?.['required']"
+                                                class="invalid-feedback">
+                                                Entrer activité.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="mb-3">
+                                            <label for="activite-field1" class="form-label">Facture</label>
+
+                                            <div class="d-flex align-items-center">
+
+                                                <div class="d-flex align-items-center me-2">
+                                                    <div class="form-check me-2">
+                                                        <input class="form-check-input" type="radio" name="facture"
+                                                            id="factureOptionYes" formControlName="facture"
+                                                            [value]="true">
+                                                        <label class="form-check-label" for="factureOptionYes">
+                                                            Oui
+                                                        </label>
+                                                    </div>
+
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="facture"
+                                                            id="factureOptionNo" formControlName="facture"
+                                                            [value]="false">
+                                                        <label class="form-check-label" for="factureOptionNo">
+                                                            Non
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-4">
+                                        <div class="mb-3">
+                                            <label for="activite-field2" class="form-label">Type facture</label>
+
+                                            <div class="d-flex align-items-center">
+
+                                                <div class="d-flex align-items-center me-2">
+                                                    <div class="form-check me-2">
+                                                        <input class="form-check-input" type="radio" name="typefacture"
+                                                            id="typeFactureMonthly" formControlName="typefacture"
+                                                            [value]="true">
+                                                        <label class="form-check-label" for="typeFactureMonthly">
+                                                            Mensuelle
+                                                        </label>
+                                                    </div>
+
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="typefacture"
+                                                            id="typeFactureWeekly" formControlName="typefacture"
+                                                            [value]="false">
+                                                        <label class="form-check-label" for="typeFactureWeekly">
+                                                            Par semaine
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div> -->
+                                    <div class="hstack gap-2 justify-content-end">
+                                     <div class="text-end">
+                                        <button (click)="saveListJs()" class="btn btn-success">{{ isEditMode ?
+                                            'modifier' :
+                                            'ajouter' }} Chauffeur
+                                        </button>
+                                    </div>
+
+                                    </div>
+                                </div>
+                            </form>
+                        </ng-template>
+                    </li>
+                    <li [ngbNavItem]="2" class="nav-item">
+                        <a ngbNavLink class="nav-link" data-bs-toggle="tab" role="tab">
+                            <i class="fas fa-home"></i>
+                            Documents
+                        </a>
+                        <ng-template ngbNavContent>
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center mb-4">
+                                        <h5 class="card-title flex-grow-1 mb-0">Documents</h5>
+                                        <div class="flex-shrink-0">
+                                            <input class="form-control d-none" type="file"
+                                                (change)="onFileSelected($event)" id="formFile">
+
+
+                                            <button type="button" class="btn btn-danger add-btn"
+                                                (click)="openModal(content)">
+                                                <i class="ri-upload-2-fill me-1 align-bottom"></i> Upload File
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="table-responsive">
+                                                <table class="table table-borderless align-middle mb-0">
+                                                    <thead class="table-light" *ngIf="files.length > 0">
+                                                        <tr>
+                                                            <th scope="col">File Name</th>
+                                                            <th scope="col">Type</th>
+                                                            <th scope="col">Size</th>
+                                                            <th scope="col">Upload Date</th>
+                                                            <th scope="col">Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+
+                                                        <tr *ngFor="let data of files; let i = index">
+                                                            <td>
+                                                                <div class="d-flex align-items-center">
+                                                                    <div class="ms-3 flex-grow-1">
+                                                                        <h6 class="fs-15 mb-0">
+                                                                            <a
+                                                                                href="javascript:void(0)">{{data?.fileName}}</a>
+                                                                        </h6>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td>{{data?.fileType}}</td>
+                                                            <td>{{data?.fileSize}}</td>
+                                                            <td>{{data?.updatedDate}}</td>
+                                                            <td>
+                                                                <div class="dropdown" ngbDropdown>
+                                                                    <a href="javascript:void(0);"
+                                                                        class="btn btn-light btn-md arrow-none"
+                                                                        id="dropdownMenuLink15"
+                                                                        data-bs-toggle="dropdown" aria-expanded="true"
+                                                                        ngbDropdownToggle>
+                                                                        <i class="ri-equalizer-fill"></i>
+                                                                    </a>
+                                                                    <ul class="dropdown-menu dropdown-menu-end"
+                                                                        aria-labelledby="dropdownMenuLink15"
+                                                                        ngbDropdownMenu>
+                                                                        <li>
+                                                                            <a class="dropdown-item"
+                                                                                href="javascript:void(0);"
+                                                                                (click)="viewFile(i)">
+                                                                                <i
+                                                                                    class="ri-eye-fill me-2 align-middle text-muted"></i>View
+                                                                            </a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="dropdown-item"
+                                                                                href="javascript:void(0);"
+                                                                                (click)="downloadFilel(data?.fileName)">
+                                                                                <i
+                                                                                    class="ri-download-2-fill me-2 align-middle text-muted"></i>Download
+                                                                            </a>
+                                                                        </li>
+                                                                        <li class="dropdown-divider"></li>
+                                                                        <li>
+                                                                            <a class="dropdown-item"
+                                                                                href="javascript:void(0);"
+                                                                                (click)="deleteFile(data.id)">
+                                                                                <i
+                                                                                    class="ri-delete-bin-5-line me-2 align-middle text-muted"></i>Delete
+                                                                            </a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <ng-container *ngIf="files.length === 0">
+                                                            <tr>
+                                                                <td colspan="5" class="text-center">No files available
+                                                                </td>
+                                                            </tr>
+                                                            <!-- Fill the rest of the rows to always display 5 rows -->
+                                                            <tr *ngFor="let empty of [].constructor(4)">
+                                                                <td colspan="5">&nbsp;</td>
+                                                            </tr>
+                                                        </ng-container>
+                                                    </tbody>
+                                                </table>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-end">
+                                <button (click)="saveListJs()" class="btn btn-success">{{ isEditMode ?
+                                    'modifier' :
+                                    'ajouter' }} Chauffeur</button>
+                            </div>
+                        </ng-template>
+
+                    </li>
+                    <!-- <li [ngbNavItem]="2" class="nav-item">
+                        <a ngbNavLink class="nav-link" data-bs-toggle="tab" role="tab">
+                            <i class="far fa-user"></i>
+                            Change Password
+                        </a>
+                        <ng-template ngbNavContent>
+                            <form action="javascript:void(0);">
+                                <div class="row g-2">
+                                    <div class="col-lg-4">
+                                        <div>
+                                            <label for="oldpasswordInput" class="form-label">Old Password*</label>
+                                            <input type="password" class="form-control" id="oldpasswordInput"
+                                                placeholder="Enter current password">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div>
+                                            <label for="newpasswordInput" class="form-label">New Password*</label>
+                                            <input type="password" class="form-control" id="newpasswordInput"
+                                                placeholder="Enter new password">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div>
+                                            <label for="confirmpasswordInput" class="form-label">Confirm
+                                                Password*</label>
+                                            <input type="password" class="form-control" id="confirmpasswordInput"
+                                                placeholder="Confirm password">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="mb-3">
+                                            <a href="javascript:void(0);"
+                                                class="link-primary text-decoration-underline">Forgot Password ?</a>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="text-end">
+                                            <button type="submit" class="btn btn-success">Change Password</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            <div class="mt-4 mb-3 border-bottom pb-2">
+                                <div class="float-end">
+                                    <a href="javascript:void(0);" class="link-primary">All Logout</a>
+                                </div>
+                                <h5 class="card-title">Login History</h5>
+                            </div>
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="flex-shrink-0 avatar-sm">
+                                    <div class="avatar-title bg-light text-primary rounded-3 fs-18 shadow">
+                                        <i class="ri-smartphone-line"></i>
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1 ms-3">
+                                    <h6>iPhone 12 Pro</h6>
+                                    <p class="text-muted mb-0">Los Angeles, United States - March 16 at 2:47PM</p>
+                                </div>
+                                <div>
+                                    <a href="javascript:void(0);">Logout</a>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="flex-shrink-0 avatar-sm">
+                                    <div class="avatar-title bg-light text-primary rounded-3 fs-18 shadow">
+                                        <i class="ri-tablet-line"></i>
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1 ms-3">
+                                    <h6>Apple iPad Pro</h6>
+                                    <p class="text-muted mb-0">Washington, United States - November 06 at 10:43AM</p>
+                                </div>
+                                <div>
+                                    <a href="javascript:void(0);">Logout</a>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="flex-shrink-0 avatar-sm">
+                                    <div class="avatar-title bg-light text-primary rounded-3 fs-18 shadow">
+                                        <i class="ri-smartphone-line"></i>
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1 ms-3">
+                                    <h6>Galaxy S21 Ultra 5G</h6>
+                                    <p class="text-muted mb-0">Conneticut, United States - June 12 at 3:24PM</p>
+                                </div>
+                                <div>
+                                    <a href="javascript:void(0);">Logout</a>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <div class="flex-shrink-0 avatar-sm">
+                                    <div class="avatar-title bg-light text-primary rounded-3 fs-18 shadow">
+                                        <i class="ri-macbook-line"></i>
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1 ms-3">
+                                    <h6>Dell Inspiron 14</h6>
+                                    <p class="text-muted mb-0">Phoenix, United States - July 26 at 8:10AM</p>
+                                </div>
+                                <div>
+                                    <a href="javascript:void(0);">Logout</a>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </li>
+                    <li [ngbNavItem]="3" class="nav-item">
+                        <a ngbNavLink class="nav-link" data-bs-toggle="tab" role="tab">
+                            <i class="far fa-envelope"></i>
+                            Experience
+                        </a>
+                        <ng-template ngbNavContent>
+                            <form>
+                                <div id="newlink">
+                                    <div id="1">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="mb-3">
+                                                    <label for="jobTitle" class="form-label">Job Title</label>
+                                                    <input type="text" class="form-control" id="jobTitle"
+                                                        placeholder="Job title" value="{{userData.job_title}}">
+                                                </div>
+                                            </div>
+                                          
+                                            <div class="col-lg-6">
+                                                <div class="mb-3">
+                                                    <label for="companyName" class="form-label">Company Name</label>
+                                                    <input type="text" class="form-control" id="companyName"
+                                                        placeholder="Company name" value="{{userData.company_name}}">
+                                                </div>
+                                            </div>
+                                         
+                                            <div class="col-lg-6">
+                                                <div class="mb-3">
+                                                    <label for="experienceYear" class="form-label">Experience
+                                                        Years</label>
+                                                    <div class="row">
+                                                        <div class="col-lg-5">
+                                                            <select class="form-control" data-choices
+                                                                data-choices-search-false name="experienceYear"
+                                                                id="experienceYear">
+                                                                <option value="">Select years</option>
+                                                                <option value="Choice 1">2001</option>
+                                                                <option value="Choice 2">2002</option>
+                                                                <option value="Choice 3">2003</option>
+                                                                <option value="Choice 4">2004</option>
+                                                                <option value="Choice 5">2005</option>
+                                                                <option value="Choice 6">2006</option>
+                                                                <option value="Choice 7">2007</option>
+                                                                <option value="Choice 8">2008</option>
+                                                                <option value="Choice 9">2009</option>
+                                                                <option value="Choice 10">2010</option>
+                                                                <option value="Choice 11">2011</option>
+                                                                <option value="Choice 12">2012</option>
+                                                                <option value="Choice 13">2013</option>
+                                                                <option value="Choice 14">2014</option>
+                                                                <option value="Choice 15">2015</option>
+                                                                <option value="Choice 16">2016</option>
+                                                                <option value="Choice 17" selected>2017</option>
+                                                                <option value="Choice 18">2018</option>
+                                                                <option value="Choice 19">2019</option>
+                                                                <option value="Choice 20">2020</option>
+                                                                <option value="Choice 21">2021</option>
+                                                                <option value="Choice 22">2022</option>
+                                                            </select>
+                                                        </div>
+                                                     
+                                                        <div class="col-auto align-self-center">
+                                                            to
+                                                        </div>
+                                                     
+                                                        <div class="col-lg-5">
+                                                            <select class="form-control" data-choices
+                                                                data-choices-search-false
+                                                                name="choices-single-default2">
+                                                                <option value="">Select years</option>
+                                                                <option value="Choice 1">2001</option>
+                                                                <option value="Choice 2">2002</option>
+                                                                <option value="Choice 3">2003</option>
+                                                                <option value="Choice 4">2004</option>
+                                                                <option value="Choice 5">2005</option>
+                                                                <option value="Choice 6">2006</option>
+                                                                <option value="Choice 7">2007</option>
+                                                                <option value="Choice 8">2008</option>
+                                                                <option value="Choice 9">2009</option>
+                                                                <option value="Choice 10">2010</option>
+                                                                <option value="Choice 11">2011</option>
+                                                                <option value="Choice 12">2012</option>
+                                                                <option value="Choice 13">2013</option>
+                                                                <option value="Choice 14">2014</option>
+                                                                <option value="Choice 15">2015</option>
+                                                                <option value="Choice 16">2016</option>
+                                                                <option value="Choice 17">2017</option>
+                                                                <option value="Choice 18">2018</option>
+                                                                <option value="Choice 19">2019</option>
+                                                                <option value="Choice 20" selected>2020</option>
+                                                                <option value="Choice 21">2021</option>
+                                                                <option value="Choice 22">2022</option>
+                                                            </select>
+                                                        </div>
+                                                     
+                                                    </div>
+                                             
+                                                </div>
+                                            </div>
+                                           
+                                            <div class="col-lg-12">
+                                                <div class="mb-3">
+                                                    <label for="jobDescription" class="form-label">Job
+                                                        Description</label>
+                                                    <textarea class="form-control" id="jobDescription" rows="3"
+                                                        placeholder="Enter description">{{userData.job_description}} </textarea>
+                                                </div>
+                                            </div>
+                                         
+                                            <div class="hstack gap-2 justify-content-end">
+                                                <a class="btn btn-success" href="javascript:void(0)">Delete</a>
+                                            </div>
+                                        </div>
+                                       
+                                    </div>
+                                </div>
+                                <div id="newForm" style="display: none;">
+
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="hstack gap-2">
+                                        <button type="submit" class="btn btn-success">Update</button>
+                                        <a href="javascript:void(0);" class="btn btn-primary">Add New</a>
+                                    </div>
+                                </div>
+                            
+                            </form>
+                        </ng-template>
+                    </li>
+                    <li [ngbNavItem]="4" class="nav-item">
+                        <a ngbNavLink class="nav-link" data-bs-toggle="tab" role="tab">
+                            <i class="far fa-envelope"></i>
+                            Privacy Policy
+                        </a>
+                        <ng-template ngbNavContent>
+                            <div class="mb-4 pb-2">
+                                <h5 class="card-title text-decoration-underline mb-3">Security:</h5>
+                                <div class="d-flex flex-column flex-sm-row mb-4 mb-sm-0">
+                                    <div class="flex-grow-1">
+                                        <h6 class="fs-14 mb-1">Two-factor Authentication</h6>
+                                        <p class="text-muted">Two-factor authentication is an enhanced security meansur.
+                                            Once enabled, you'll be required to give two types of identification when
+                                            you log into Google Authentication and SMS are Supported.</p>
+                                    </div>
+                                    <div class="flex-shrink-0 ms-sm-3">
+                                        <a href="javascript:void(0);" class="btn btn-sm btn-primary">Enable Two-facor
+                                            Authentication</a>
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-column flex-sm-row mb-4 mb-sm-0 mt-2">
+                                    <div class="flex-grow-1">
+                                        <h6 class="fs-14 mb-1">Secondary Verification</h6>
+                                        <p class="text-muted">The first factor is a password and the second commonly
+                                            includes a text with a code sent to your smartphone, or biometrics using
+                                            your fingerprint, face, or retina.</p>
+                                    </div>
+                                    <div class="flex-shrink-0 ms-sm-3">
+                                        <a href="javascript:void(0);" class="btn btn-sm btn-primary">Set up secondary
+                                            method</a>
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-column flex-sm-row mb-4 mb-sm-0 mt-2">
+                                    <div class="flex-grow-1">
+                                        <h6 class="fs-14 mb-1">Backup Codes</h6>
+                                        <p class="text-muted mb-sm-0">A backup code is automatically generated for you
+                                            when you turn on two-factor authentication through your iOS or Android
+                                            Twitter app. You can also generate a backup code on twitter.com.</p>
+                                    </div>
+                                    <div class="flex-shrink-0 ms-sm-3">
+                                        <a href="javascript:void(0);" class="btn btn-sm btn-primary">Generate backup
+                                            codes</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <h5 class="card-title text-decoration-underline mb-3">Application Notifications:</h5>
+                                <ul class="list-unstyled mb-0">
+                                    <li class="d-flex">
+                                        <div class="flex-grow-1">
+                                            <label for="directMessage" class="form-check-label fs-14">Direct
+                                                messages</label>
+                                            <p class="text-muted">Messages from people you follow</p>
+                                        </div>
+                                        <div class="flex-shrink-0">
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input" type="checkbox" role="switch"
+                                                    id="directMessage" checked />
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="d-flex mt-2">
+                                        <div class="flex-grow-1">
+                                            <label class="form-check-label fs-14" for="desktopNotification">
+                                                Show desktop notifications
+                                            </label>
+                                            <p class="text-muted">Choose the option you want as your default setting.
+                                                Block a site: Next to "Not allowed to send notifications," click Add.
+                                            </p>
+                                        </div>
+                                        <div class="flex-shrink-0">
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input" type="checkbox" role="switch"
+                                                    id="desktopNotification" checked />
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="d-flex mt-2">
+                                        <div class="flex-grow-1">
+                                            <label class="form-check-label fs-14" for="emailNotification">
+                                                Show email notifications
+                                            </label>
+                                            <p class="text-muted"> Under Settings, choose Notifications. Under Select an
+                                                account, choose the account to enable notifications for. </p>
+                                        </div>
+                                        <div class="flex-shrink-0">
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input" type="checkbox" role="switch"
+                                                    id="emailNotification" />
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="d-flex mt-2">
+                                        <div class="flex-grow-1">
+                                            <label class="form-check-label fs-14" for="chatNotification">
+                                                Show chat notifications
+                                            </label>
+                                            <p class="text-muted">To prevent duplicate mobile notifications from the
+                                                Gmail and Chat apps, in settings, turn off Chat notifications.</p>
+                                        </div>
+                                        <div class="flex-shrink-0">
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input" type="checkbox" role="switch"
+                                                    id="chatNotification" />
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="d-flex mt-2">
+                                        <div class="flex-grow-1">
+                                            <label class="form-check-label fs-14" for="purchaesNotification">
+                                                Show purchase notifications
+                                            </label>
+                                            <p class="text-muted">Get real-time purchase alerts to protect yourself from
+                                                fraudulent charges.</p>
+                                        </div>
+                                        <div class="flex-shrink-0">
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input" type="checkbox" role="switch"
+                                                    id="purchaesNotification" />
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h5 class="card-title text-decoration-underline mb-3">Delete This Account:</h5>
+                                <p class="text-muted">Go to the Data & Privacy section of your profile Account. Scroll
+                                    to "Your data & privacy options." Delete your Profile Account. Follow the
+                                    instructions to delete your account :</p>
+                                <div>
+                                    <input type="password" class="form-control" id="passwordInput"
+                                        placeholder="Enter your password" value="make@321654987"
+                                        style="max-width: 265px;">
+                                </div>
+                                <div class="hstack gap-2 mt-3">
+                                    <a href="javascript:void(0);" class="btn btn-soft-danger">Close & Delete This
+                                        Account</a>
+                                    <a href="javascript:void(0);" class="btn btn-light">Cancel</a>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </li> -->
+                </ul>
+            </div>
+            <div class="card-body p-4">
+                <div class="tab-content">
+                    <div [ngbNavOutlet]="customNav"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div><!--end row-->
+
+<ng-template #content role="document" let-modal>
+    <div class="modal-header bg-light p-3">
+        <h5 class="modal-title" id="exampleModalLabel">Ajouter file</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"
+            (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <form (ngSubmit)="uploadFiles()" class="tablelist-form" autocomplete="off">
+        <div class="modal-body">
+
+            <div class="mb-3">
+                <label for="file-field" class="form-label">file</label>
+                <input type="file" class="form-control" (change)="onFileSelected($event)" placeholder="Enter file." />
+
+            </div>
+        </div>
+        <div class="modal-footer">
+            <div class="hstack gap-2 justify-content-end">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal"
+                    (click)="modal.close('Close click')">Fermer</button>
+                <button type="submit" class="btn btn-success" id="add-btn">Ajouter file</button>
+            </div>
+        </div>
+    </form>
+</ng-template>

@@ -1,0 +1,126 @@
+.table-gray {
+  background-color: #f0f0f0;
+  /* Light gray background */
+  color: #000;
+  /* Black text color */
+}
+
+.table-responsive {
+  overflow-y: auto;
+}
+
+.table thead th {
+  text-align: center;
+}
+
+.table tbody td {
+  vertical-align: middle;
+}
+
+.table tbody td .btn {
+  margin: 0 5px;
+}
+
+.disabled {
+  /* Uncomment if needed */
+ //  pointer-events: none;
+  // opacity: 0.5;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  width: 100%;
+  margin-top: 50px;
+}
+
+.info-grid .cell {
+  background-color: #fff;
+  padding: 15px;
+}
+
+.divider {
+  border: none;
+  margin: 20px 0;
+}
+
+/* Target the ng-select dropdown panel */
+.ng-dropdown-panel {
+  background-color: white !important;
+  border: 1px solid #ccc;
+  /* Optional: Add a border for better visibility */
+}
+
+/* Optional: Style the items to have a white background as well */
+.ng-dropdown-panel .ng-option {
+  background-color: white;
+  color: #333;
+  /* Set text color */
+}
+
+/* Optional: Style the hover and selected states */
+.ng-dropdown-panel .ng-option:hover {
+  background-color: #f0f0f0;
+  /* Light grey on hover */
+}
+
+.ng-dropdown-panel .ng-option.selected {
+  background-color: #e9ecef;
+  /* Light grey when selected */
+}
+
+.tete {
+  text-align: center;
+  margin-bottom: 30px;
+  width: 100%;
+  background-color: #d4af37;
+  color: #fff;
+  height: 40px;
+  line-height: 40px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.bl-number {
+  position: absolute;
+  top: 100px;
+  right: 15px;
+  background-color: #d4af37;
+  color: #fff;
+  padding: 10px 15px;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+@media print {
+  .tete {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
+
+.table.no-outer-border {
+  border: none;
+}
+
+.table.no-outer-border th,
+.table.no-outer-border td {
+  border: 1px solid #bababa;
+  /* Keeps the internal borders */
+}
+a.disabled {
+  pointer-events: none;
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.ng-dropdown-panel.ng-select-bottom {
+  border-top-color: var(--vz-input-border-custom);
+  background-color: white !important;}
+
+  .ng-dropdown-panel .scroll-host {
+  
+    background: red!important;
+}
+

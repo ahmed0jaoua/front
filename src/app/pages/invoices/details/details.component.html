@@ -1,0 +1,147 @@
+<!-- Start Breadcrumbs -->
+<app-breadcrumbs title="bon reception Details" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<!-- End Breadcrumbs -->
+
+<div class="row justify-content-center">
+    <div class="col-xxl-9">
+        <div class="card" id="demo">
+            <div class="row">
+                <div class="col-lg-12">
+
+
+                 <div style="height: 50px;"></div>
+
+
+                    <!--end card-heade  r-->
+                </div><!--end col-->
+                <div class="col-lg-12">
+                    <div class="card-body p-4">
+                        <div class="row g-3">
+                            <div class="col-lg-3 col-6">
+                                <p class="text-muted mb-2 text-uppercase fw-semibold">bon reception No</p>
+                                <h5 class="fs-15 mb-0">{{ commande.code }}</h5>
+                            </div>
+                            <!--end col-->
+                            <div class="col-lg-3 col-6">
+                                <p class="text-muted mb-2 text-uppercase fw-semibold">Date</p>
+                                <h5 class="fs-15 mb-0"><span id="invoice-date">{{ commande.dateCreation }}</span> </h5>
+                            </div>
+                            <!--end col-->
+                            <div class="col-lg-3 col-6">
+                                <p class="text-muted mb-2 text-uppercase fw-semibold">Payment Status</p>
+                                <span class="badge bg-success-subtle text-success fs-11" id="payment-status">Paid</span>
+                            </div>
+                            <!--end col-->
+
+                            <!--end col-->
+                        </div>
+                        <!--end row-->
+                    </div>
+                    <!--end card-body-->
+                </div><!--end col-->
+                <div class="col-lg-12">
+                    <div class="card-body p-4 border-top border-top-dashed">
+                        <div class="row g-3">
+                            <div class="col-6">
+                                <h6 class="text-muted text-uppercase fw-semibold mb-3">client information </h6>
+
+                                <h5 class="fs-13 mb-1"><span id="invoice-no">client code : </span></h5>
+                                <p class="text-muted mb-1" id="billing-address-line-1">{{ commande.client.code }}</p>
+
+                                <h5 class="fs-13 mb-1"><span id="invoice-no">Nom :</span></h5>
+                                <p class="text-muted mb-1" id="billing-address-line-1">{{ commande.client.nom }}</p>
+
+
+                                <h5 class="fs-13 mb-1"><span id="invoice-no">Raison social :</span></h5>
+                                <p class="text-muted mb-1" id="billing-address-line-1">{{ commande.client.raisonSocial
+                                    }}</p>
+
+                                <h5 class="fs-13 mb-1"><span id="invoice-no">solde :</span></h5>
+                                <p class="text-muted mb-1" id="billing-address-line-1">{{ commande.client.famille }}</p>
+
+                            </div>
+                            <!--end   <h6 class="text-muted text-uppercase fw-semibold mb-3">Shipping Address</h6>   col-->
+                            <div class="col-6">
+                                <h6 class="text-muted text-uppercase fw-semibold mb-3">Detail :</h6>
+
+                                <h5 class="fs-13 mb-1"><span id="invoice-no">Activite</span></h5>
+                                <p class="text-muted mb-1" id="billing-address-line-1">{{ commande.client.activite }}
+                                </p>
+
+                                <h5 class="fs-13 mb-1"><span id="invoice-no">Adresse :</span></h5>
+                                <p class="text-muted mb-1" id="billing-address-line-1">{{ commande.client.adresse }}</p>
+
+
+                                <h5 class="fs-13 mb-1"><span id="invoice-no">Email :</span></h5>
+                                <p class="text-muted mb-1" id="billing-address-line-1">{{ commande.client.email }}</p>
+
+                                <h5 class="fs-13 mb-1"><span id="invoice-no">Phone :</span></h5>
+                                <p class="text-muted mb-1" id="billing-address-line-1">{{ commande.client.phone }}</p>
+
+                            </div>
+                            <!--end col-->
+                        </div>
+                        <!--end row-->
+                    </div>
+                    <!--end card-body-->
+                </div><!--end col-->
+                <div class="col-lg-12">
+                    <div class="card-body p-4">
+                        <p class="text-muted mb-1" id="billing-address-line-1">Liste articles</p>
+                        <div class="table-responsive">
+                            <table class="table table-borderless text-center table-nowrap align-middle mb-0">
+                                <thead>
+                                    <tr class="table-active">
+
+                                        <th scope="col">code</th>
+                                        <th scope="col">nom</th>
+                                        <th scope="col">client</th>
+                                        <th scope="col">dimension</th>
+                                        <th scope="col">continu</th>
+                                        <th scope="col">destinateur nom </th>
+                                        <th scope="col">destinateur adresse </th>
+                                    </tr>
+                                </thead>
+                                <tbody id="products-list">
+                                    @for(data of articles;track $index){
+                                    <tr>
+                                        <td>
+                                            {{data.code}}
+                                        </td>
+                                        <td>
+                                            {{data.nom}}
+                                        </td>
+                                        <td>
+                                            {{data.Dimensions}}
+                                        </td>
+                                        <td>
+                                            {{data.poids}}
+                                        </td>
+                                        <td>
+                                            {{data.Contenu}}
+                                        </td>
+                                        <td>
+                                            {{data.destinateur.name}}
+                                        </td>
+                                        <td>
+                                            {{data.destinateur.address}}
+                                        </td>
+                                    </tr>
+                                    }
+                                </tbody>
+                            </table><!--end table-->
+                        </div>
+
+                        <div class="hstack gap-2 justify-content-end d-print-none mt-4">
+                            <a (click)="affiche()" class="btn btn-success"><i
+                                    class="ri-printer-line align-bottom me-1"></i> Print</a>
+                            <a href="javascript:void(0);" class="btn btn-primary"><i
+                                    class="ri-download-2-line align-bottom me-1"></i> Download</a>
+                        </div>
+                    </div>
+                    <!--end card-body-->
+                </div><!--end col-->
+            </div><!--end row-->
+        </div>
+    </div>
+</div>

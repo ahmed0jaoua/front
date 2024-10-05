@@ -1,0 +1,363 @@
+<!-- Start Breadcrumbs -->
+<app-breadcrumbs title="Clients" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<!-- End Breadcrumbs -->
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card" id="customerList">
+            <div class="card-header border-bottom-dashed">
+
+                <div class="row g-4 align-items-center">
+                    <div class="col-sm">
+                        <div>
+                            <h5 class="card-title mb-0">Liste des clients</h5>
+                        </div>
+                    </div>
+                    <div class="col-sm-auto">
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-soft-danger" id="remove-actions" style="display: none"
+                                (click)="deleteMultiple(deleteModel)"><i class="ri-delete-bin-2-line"></i></button>
+                            <button type="button" class="btn btn-success add-btn" data-bs-toggle="modal" id="create-btn"
+                            [routerLink]="['/clients/ajouter']"><i
+                                    class="ri-add-line align-bottom me-1"></i>Ajouter Client</button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body border-bottom-dashed border-bottom">
+                <div class="row g-3">
+                    <div class="col-xl-6">
+                        <div class="search-box">
+                            <input type="text" name="searchTerm" class="form-control"
+                                placeholder="Rechercher un client, un email, un téléphone, un statut ou autre..."
+                                [(ngModel)]="searchTerm" (ngModelChange)="performSearch()">
+                            <i class="ri-search-line search-icon"></i>
+                        </div>
+                    </div>
+                    <!--end col-->
+
+                </div>
+                <!--end row-->
+            </div>
+            <div class="card-body">
+                <div>
+                    <div class="table-responsive table-card mb-1">
+                        <table class="table  table-hover table-nowrap mb-0 table-bordered table-nowrap">
+                            <thead class="table-light text-muted">
+                                <tr>
+                                    <th class="sort" (click)="onSort('code')">Code</th>
+                                    <th class="sort" (click)="onSort('raisonSocial')">RaisonSocial</th>
+                                    <th class="sort" (click)="onSort('phone')">Téléphone</th>
+                                    <th class="sort" (click)="onSort('email')">Email</th>
+                                    <th class="sort" (click)="onSort('adresse')">Adresse</th>
+                                    <th class="sort" (click)="onSort('matriculeFiscale')">Mat-Fiscale</th>
+                                    <th class="sort" (click)="onSort('activite')">Activite</th>
+                                    <th class="sort">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let client of clients">
+
+                                    <td>
+                                        <ngb-highlight [result]="client?.code ?? 'N/A' "
+                                            [term]="searchTerm"></ngb-highlight>
+                                    </td>
+                                    <td>
+                                        <ngb-highlight [result]="client?.raisonSocial"
+                                            [term]="searchTerm"></ngb-highlight>
+                                    </td>
+                                    <td>
+                                        <ngb-highlight [result]="client?.phone ?? 'N/A' "
+                                            [term]="searchTerm"></ngb-highlight>
+                                    </td>
+                                    <td>
+                                        <ngb-highlight [result]="client?.email ?? 'N/A' "
+                                            [term]="searchTerm"></ngb-highlight>
+                                    </td>
+                                    <td>
+                                        <ngb-highlight [result]="client?.adresse ?? 'N/A'"
+                                            [term]="searchTerm"></ngb-highlight>
+                                    </td>
+                                    <td>
+                                        <ngb-highlight [result]="client?.matriculeFiscale ?? 'N/A'  "
+                                            [term]="searchTerm"></ngb-highlight>
+                                    </td>
+                                    <td>
+                                        <ngb-highlight [result]="client?.activite ?? 'N/A' "
+                                            [term]="searchTerm"></ngb-highlight>
+                                    </td>
+                                    <td>
+                                        <ul class="list-inline hstack gap-2 mb-0">
+                                            <li class="list-inline-item edit" ngbTooltip="Edit" placement="top">
+                                                <a href="javascript:void(0);" 
+                                                    class="text-warning "[routerLink]="['/clients/clientProfile', client?.id]" >
+                                                    <i class="ri-file-user-line"></i>
+                                                </a>
+                                            </li>
+                                            <li class="list-inline-item edit" ngbTooltip="Edit" placement="top">
+                                                <a href="javascript:void(0);" data-bs-toggle="modal"
+                                                [routerLink]="['/clients/edit', client?.id]" 
+                                                    class="text-primary d-inline-block edit-item-btn">
+                                                    <i class="ri-pencil-fill fs-16"></i>
+                                                </a>
+                                            </li>
+                                            <li class="list-inline-item me-0" ngbTooltip="Remove" placement="top">
+                                                <a class="text-danger d-inline-block remove-item-btn"
+                                                    data-bs-toggle="modal" data-bs-target="#deleteRecordModal"
+                                                    (click)="confirm(deleteModel ,client?.id)">
+                                                    <i class="ri-delete-bin-5-fill fs-16"></i>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="row justify-content-md-between align-items-md-center">
+                        <div class="col col-sm-5">
+                            <div class="dataTables_info mb-2" id="tickets-table_info" role="status" aria-live="polite">
+                                Showing
+                                {{service.startIndex}} to
+                                {{service.endIndex}} of {{clients.length}}
+                                entries
+                            </div>
+                        </div>
+                        <!-- Pagination -->
+                        <div class="col col-sm-5">
+                            <div class="text-sm-right float-sm-end listjs-pagination">
+                                <ngb-pagination [collectionSize]="originalClients.length" [(page)]="service.page"
+                                    [pageSize]="service.pageSize" (pageChange)="changePage()">
+                                </ngb-pagination>
+                            </div>
+                        </div>
+                        <!-- End Pagination -->
+                    </div>
+                </div>
+
+                <!-- Customer Create Model -->
+                
+                <!--End Modal -->
+                <!--end modal -->
+                <div id="elmLoader">
+                    <div class="spinner-border text-primary avatar-sm" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!--end col-->
+</div>
+<!--end row-->
+
+<!-- removeItemModal -->
+<ng-template #deleteModel let-modal>
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="deleteRecord-close"
+                (click)="modal.dismiss('Cross click')"></button>
+        </div>
+        <div class="modal-body">
+            <div class="mt-2 text-center">
+                <div class="mt-4 pt-2 fs-15 mx-4 mx-sm-5">
+                    <h4>Are you sure ?</h4>
+                    <p class="text-muted mx-4 mb-0">Are you sure you want to remove this record ?</p>
+                </div>
+            </div>
+            <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
+                <button type="button" class="btn w-sm btn-light" data-bs-dismiss="modal"
+                    (click)="modal.close('Close click')">Close</button>
+                <button type="button" class="btn w-sm btn-danger " id="delete-product" (click)="deleteData(deleteId)"
+                    (click)="onDeleteClient()">Yes, Delete It!</button>
+            </div>
+        </div>
+    </div><!-- /.modal-content -->
+</ng-template>
+
+
+<ng-template #content role="document" let-modal style="width: 1000px;" >
+    <div class="modal-header bg-light p-3" >
+        <h5 class="modal-title" id="exampleModalLabel">{{ isEditMode ? 'modifier' : 'ajouter' }} client
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+            id="close-modal" (click)="onclose()"></button>
+    </div>
+    <form (ngSubmit)="submitForm()" [formGroup]="customerForm" class="tablelist-form"
+        autocomplete="off">
+        <div class="modal-body">
+            <input type="hidden" name="id" value="" formControlName="ids" />
+
+            <div >
+                <label for="code-field" class="form-label">Code</label>
+                <input type="text" id="code-field" class="form-control" placeholder="Entrer code"
+                    formControlName="code"
+                    [ngClass]="{ 'is-invalid': submitted && customerForm.get('code')?.invalid }" />
+                <div *ngIf="submitted && customerForm.get('code')?.errors?.['required']"
+                    class="invalid-feedback">
+                    Entrer code.
+                </div>
+            </div>
+            <div class="d-flex flex-wrap">
+            <div class="  col-lg-6 ">
+                <label for="nom-field" class="form-label">Nom</label>
+                <input type="text" id="nom-field" class="form-control" placeholder="Entrer nom"
+                    formControlName="nom"
+                    [ngClass]="{ 'is-invalid': submitted && customerForm.get('nom')?.invalid }" />
+                <div *ngIf="submitted && customerForm.get('nom')?.errors?.['required']"
+                    class="invalid-feedback">
+                    Entrer nom.
+                </div>
+            </div>
+
+            <div class=" col-lg-6">
+                <label for="raisonSocial-field" class="form-label">Raison Sociale</label>
+                <input type="email" id="raisonSocial-field" class="form-control"
+                    placeholder="raison sociale" formControlName="raisonSocial"
+                    [ngClass]="{ 'is-invalid': submitted && customerForm.get('raisonSocial')?.invalid }" />
+                <div *ngIf="submitted && customerForm.get('raisonSocial')?.errors?.['required']"
+                    class="invalid-feedback">
+                    Entrer raison sociale.
+                </div>
+            </div>
+            </div>
+            <div class="mb-3">
+                <label for="phone-field" class="form-label">Téléphone</label>
+                <input type="text" id="phone-field" class="form-control"
+                    placeholder="Entrer num Téléphone." mask="000-000-0000" formControlName="phone"
+                    [ngClass]="{ 'is-invalid': submitted && customerForm.get('phone')?.invalid }" />
+                <div *ngIf="submitted && customerForm.get('phone')?.errors?.['required']"
+                    class="invalid-feedback">
+                    Entrer num Téléphone.
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="email-field" class="form-label">Email</label>
+                <input type="text" id="email-field" class="form-control" placeholder="Entrer Email."
+                    formControlName="email"
+                    [ngClass]="{ 'is-invalid': submitted && customerForm.get('email')?.invalid }" />
+                <div *ngIf="submitted && customerForm.get('email')?.errors?.['required']"
+                    class="invalid-feedback">
+                    Entrer Email.
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="adresse-field" class="form-label">Adresse</label>
+                <input type="text" id="adresse-field" class="form-control" placeholder="Enter Adresse."
+                    formControlName="adresse"
+                    [ngClass]="{ 'is-invalid': submitted && customerForm.get('adresse')?.invalid }" />
+                <div *ngIf="submitted && customerForm.get('adresse')?.errors?.['required']"
+                    class="invalid-feedback">
+                    Entrer adresse.
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="matriculeFiscale-field" class="form-label">Matricule Fiscale</label>
+                <input type="text" id="matriculeFiscale-field" class="form-control"
+                    placeholder="Enter Matricule Fiscale." formControlName="matriculeFiscale"
+                    [ngClass]="{ 'is-invalid': submitted && customerForm.get('matriculeFiscale')?.invalid }" />
+                <div *ngIf="submitted && customerForm.get('matriculeFiscale')?.errors?.['required']"
+                    class="invalid-feedback">
+                    Entrer matricule fiscale.
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="activite-field" class="form-label">Activité</label>
+                <input type="text" id="activite-field" class="form-control"
+                    placeholder="Enter Activité." formControlName="activite"
+                    [ngClass]="{ 'is-invalid': submitted && customerForm.get('activite')?.invalid }" />
+                <div *ngIf="submitted && customerForm.get('activite')?.errors?.['required']"
+                    class="invalid-feedback">
+                    Entrer activité.
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-6">
+                  <label for="activite-field1" class="form-label">Facture</label>
+                  
+                  <div class="d-flex align-items-center">
+                    <!-- First Set of Radio Buttons -->
+                    <div class="d-flex align-items-center me-2">
+                      <div class="form-check me-2">
+                        <input class="form-check-input" type="radio" name="facture" id="factureOptionYes" formControlName="facture"[value]="true">
+                        <label class="form-check-label" for="factureOptionYes">
+                          Oui
+                        </label>
+                      </div>
+                       
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="facture" id="factureOptionNo" formControlName="facture" [value]="false">
+                        <label class="form-check-label" for="factureOptionNo">
+                          Non
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="col-lg-6">
+
+                  <label for="activite-field2" class="form-label">Type facture</label>
+                  
+                  <div class="d-flex align-items-center">
+                    <!-- Second Set of Radio Buttons -->
+                    <div class="d-flex align-items-center me-2">
+                      <div class="form-check me-2">
+                        <input class="form-check-input" type="radio" name="typefacture" id="typeFactureMonthly" formControlName="typefacture" [value]="true">
+                        <label class="form-check-label" for="typeFactureMonthly">
+                          Mensuelle
+                        </label>
+                      </div>
+                      
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="typefacture" id="typeFactureWeekly" formControlName="typefacture" [value]="false">
+                        <label class="form-check-label" for="typeFactureWeekly">
+                          Par semaine
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              
+            <!-- <div class="d-flex flex-wrap">
+
+                <div class="col-lg-6 mb-3">
+                    <label for="companyname-field1" class="form-label">Company Name</label>
+                    <input type="text" id="companyname-field1" class="form-control"
+                        placeholder="Enter company name" required formControlName="name"
+                        [ngClass]="{ 'is-invalid': submitted && form['name'].errors }" />
+                    <div class="invalid-feedback">Please enter a company name.</div>
+                </div>
+
+                <div class="col-lg-6 mb-3">
+                    <label for="companyname-field2" class="form-label">Company Name</label>
+                    <input type="text" id="companyname-field2" class="form-control"
+                       
+                        [ngClass]="{ 'is-invalid': submitted && form['name'].errors }" />
+                    <div class="invalid-feedback">Please enter a company name.</div>
+                </div>
+            </div> -->
+
+        </div>    
+        <br><br>
+        <div class="modal-footer">
+            <div class="hstack gap-2 justify-content-end">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal"
+                    (click)="modal.close('Close click')">Retour</button>
+                <button type="submit" class="btn btn-success">{{ isEditMode ? 'Modifier' : 'Ajouter' }}
+                    Client</button>
+            </div>
+        </div>
+    </form>
+</ng-template>
+

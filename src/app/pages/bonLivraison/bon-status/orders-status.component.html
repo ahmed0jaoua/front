@@ -1,0 +1,73 @@
+<!-- Start Breadcrumbs -->
+<app-breadcrumbs title="Order Details" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<!-- End Breadcrumbs -->
+
+<div class="row">
+    <div class="col-xl-15">
+        <div class="card">
+            <div class="card-header">
+                <div class="d-flex align-items-center">
+                    <h5 class="card-title flex-grow-1 mb-0">Livraison #{{livraison?.reference}}</h5>
+                    <div class="flex-shrink-0">
+                        <a class="btn btn-success btn-sm"   (click)="updateStatusArticle()" > update status Aticles</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+         
+                <div class="table-responsive table-card">
+                    <!-- your-component.component.html -->
+                    <table class="table table-nowrap align-middle table-borderless mb-0">
+                        <thead class="table-light text-muted">
+                            <tr>
+                                <th scope="col">Article</th>
+                                <th scope="col">Mode de Paiement</th>
+                                <th scope="col">Type de Paiement</th>
+                                <th scope="col">Quantité</th>
+                                <th scope="col">Statut</th>
+                                <th scope="col" class="text-end">Frais</th>
+                                <!-- New columns for each Trajet -->
+                                <th *ngFor="let trajet of listeTrajet" scope="col" class="trajet-column">{{ trajet?.site2.nom }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let ligne of listeLigne">
+                                <td>{{ ligne?.libellearticle }}</td>
+                                <td>{{ ligne?.modepaiement?.libelle }}</td>
+                                <td>{{ ligne?.typepaiement?.libelle }}</td>
+                                <td>{{ ligne?.quantite }}</td>
+                                <td>{{ ligne?.status }}</td>
+                                <td class="text-end">{{ ligne?.frais }}</td>
+                                <!-- Dropdowns for each Trajet -->
+                                <td *ngFor="let trajet of listeTrajet" class="trajet-column">
+                                    <div class="form-group">
+                                        <select 
+                                            id="statusSelect" 
+                                            class="form-control trajet-select"
+                                            [(ngModel)]="ligne.trajetStatus[trajet.id].status"
+                                            [ngClass]="{
+                                                'status-delivered': ligne.trajetStatus[trajet.id].status == 2,
+                                                'status-missed': ligne.trajetStatus[trajet.id].status == 3,
+                                                'status-not-delivered': ligne.trajetStatus[trajet.id].status == 1
+                                            }"
+                                        >
+                                            <option value="1">non livre</option>
+                                            <option value="2">livre</option>
+                                            <option value="3">Missed</option>
+                                        </select>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+
+                </div>
+
+
+            </div>
+        </div><!--end card-->
+  
+    </div><!--end col-->
+
+</div><!--end row-->

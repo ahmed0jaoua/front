@@ -1,0 +1,22 @@
+
+        .container {
+            padding: 20px;
+            background-color: #f8f9fa; /* Couleur de fond pour le conteneur */
+            border-radius: 8px; /* Coins arrondis pour le conteneur */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Ombre légère pour le conteneur */
+        }
+        .image-container {
+            position: relative;
+            width: 100%;
+            height: 100px; /* Hauteur du conteneur de l'image */
+            overflow: hidden; /* Cache l'excès d'image */
+        }
+        .image-container img {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Remplit le conteneur en maintenant les proportions */
+        }
